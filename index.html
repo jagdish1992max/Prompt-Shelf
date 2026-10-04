@@ -59,6 +59,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:v
   <div class="stats"><div class="stat"><b id="sp">0</b>prompts</div><div class="stat"><b id="sc">0</b>categories</div><div class="stat"><b>Free</b>forever</div></div>
 </div></header>
 <main>
+  <section id="potd"></section>
   <section id="gen"></section>
   <input class="search" id="q" type="search" placeholder="Search prompts, e.g. Navratri, thumbnail, anime" aria-label="Search prompts">
   <div class="chips groups" id="groups"></div>
@@ -78,6 +79,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:v
 <script src="prompts11.js"></script>
 <script src="prompts7.js"></script>
 <script src="gen.js"></script>
+<script src="potd.js"></script>
 <script>
 if(typeof PROMPTS==="undefined"){PROMPTS=[]}
 var grp="All",cat="All",term="";
