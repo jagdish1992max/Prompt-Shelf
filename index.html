@@ -78,6 +78,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:v
 <script src="prompts9.js"></script>
 <script src="prompts10.js"></script>
 <script src="prompts11.js"></script>
+<script src="prompts12.js"></script>
+<script src="prompts13.js"></script>
 <script src="prompts7.js"></script>
 <script src="gen.js"></script>
 <script src="potd.js"></script>
@@ -85,7 +87,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:v
 <script>
 if(typeof PROMPTS==="undefined"){PROMPTS=[]}
 var grp="All",cat="All",term="";
-var GROUPS=[["Navratri",["Navratri Devi","Navratri Me","Navratri Content"]],["Trending Now",["Trending Now"]],["Diwali & Dussehra",["Diwali Images","Diwali Me","Dussehra","Diwali Content"]],["Image Generator",["Image Gen","Characters","Visuals","Prompt Tools"]],["My Photo",["Portrait Looks", "Art Styles", "Roles", "Travel Me", "Festive Me", "Devotional Me", "Channel Me", "Fashion Me", "Video Me"]],["Video Generator",["Video Gen","Action Video","Action Me","Horror Video","Comedy Video","Romantic Video","Sci-Fi Video"]],["Devotional",["Devotional"]],["Festival",["Festival"]],["YouTube & Content",["YouTube","Reels","Hinglish","Editing","Planning","Community","Growth"]],["Branding",["Branding"]]];
+var GROUPS=[["Viral India",["Retro 80s","Viral Edits","Landmarks","Couples & Wedding","Model Photoshoot"]],["Navratri",["Navratri Devi","Navratri Me","Navratri Content"]],["Trending Now",["Trending Now"]],["Diwali & Dussehra",["Diwali Images","Diwali Me","Dussehra","Diwali Content"]],["Image Generator",["Image Gen","Characters","Visuals","Prompt Tools"]],["My Photo",["Portrait Looks", "Art Styles", "Roles", "Travel Me", "Festive Me", "Devotional Me", "Channel Me", "Fashion Me", "Video Me"]],["Video Generator",["Video Gen","Action Video","Action Me","Horror Video","Comedy Video","Romantic Video","Sci-Fi Video"]],["Devotional",["Devotional"]],["Festival",["Festival"]],["YouTube & Content",["YouTube","Reels","Hinglish","Editing","Planning","Community","Growth"]],["Branding",["Branding"]]];
 var c2g={};GROUPS.forEach(function(g){g[1].forEach(function(c){c2g[c]=g[0]})});
 PROMPTS.forEach(function(x){if(!c2g[x.c]){c2g[x.c]="Other"}});
 var FAV=[];try{FAV=JSON.parse(localStorage.getItem("pw_fav")||"[]")}catch(e){}
