@@ -101,31 +101,22 @@ var PROMPTS=[
 {t:"Editor brief",c:"Editing",p:"Write a clear brief for my video editor for [video title]: style references [references], pace [fast / medium], music mood [mood], caption style [style], and the 5 most important moments to highlight."},
 {t:"Subtitle cleanup",c:"Editing",p:"Clean up these auto-generated subtitles: [paste text]. Fix spelling and punctuation, split into lines of maximum 42 characters, and keep the Hinglish words as they are."},
 {t:"Audience persona",c:"Growth",p:"Create 3 viewer personas for my [niche] channel. For each give age range, what they struggle with, what videos they search for, and what would make them subscribe."},
-{t:"Handle a negative comment",c:"Community",p:"Someone left this negative comment on my video: [comment]. Write 3 calm replies: one thanking them for the feedback, one correcting a mistake politely, one short reply that ends the discussion."}
+{t:"Handle a negative comment",c:"Community",p:"Someone left this negative comment on my video: [comment]. Write 3 calm replies: one thanking them for the feedback, one correcting a mistake politely, one short reply that ends the discussion."},
+{t:"Lord Shiva meditating",c:"Devotional",p:"Lord Shiva meditating on Mount Kailash at dawn, calm serene face, third eye, crescent moon, Ganga flowing from his hair, snow peaks and soft golden mist, traditional iconography, cinematic lighting, ultra detailed, respectful and divine mood. Vertical 9:16."},
+{t:"Hanuman flying with Sanjeevani",c:"Devotional",p:"Lord Hanuman flying across the sky carrying the Sanjeevani mountain, powerful and devoted expression, saffron sunset clouds, glowing aura, epic cinematic wide shot, detailed muscles and golden ornaments, reverent mood, 16:9."},
+{t:"Bal Krishna with makhan",c:"Devotional",p:"Cute Bal Krishna holding a pot of makhan, sweet smile, peacock feather crown, yellow dhoti, Vrindavan village background with cows, soft warm light, 3D Pixar-like style, innocent and divine feeling."},
+{t:"Krishna playing flute",c:"Devotional",p:"Lord Krishna playing the flute under a kadamba tree on the Yamuna bank at moonlight, peacock feather, blue skin, flowers and glowing fireflies, peaceful mood, painterly style with rich colours, traditional and respectful."},
+{t:"Ganpati Bappa festival poster",c:"Devotional",p:"Lord Ganesha seated on a lotus with modak, decorated pandal background with marigold flowers and diyas, golden glow, festive Ganesh Chaturthi poster, space at the top for the text \"Ganpati Bappa Morya\", vibrant colours."},
+{t:"Goddess Durga Navratri",c:"Devotional",p:"Goddess Durga riding her lion with eight arms holding divine weapons, fierce yet compassionate face, red saree and gold jewellery, glowing aura, Navratri night with lamps, epic detailed illustration, respectful depiction."},
+{t:"Goddess Lakshmi Diwali",c:"Devotional",p:"Goddess Lakshmi seated on a lotus with golden coins falling, elephants on both sides, rows of diyas and rangoli, warm Diwali glow, soft rich colours, traditional art style, calm and graceful expression. Vertical 9:16."},
+{t:"Ram Darbar",c:"Devotional",p:"Ram Darbar: Lord Ram, Sita, Lakshman and Hanuman seated together in a grand temple hall, golden crowns and silk clothing, calm divine faces, soft light from above, detailed traditional painting style, symmetrical composition."},
+{t:"Mahadev in cinematic 3D",c:"Devotional",p:"Mahadev in cinematic 3D render, powerful and peaceful, trident and damru, ash on body, glowing blue aura, storm clouds and lightning behind, dramatic lighting, high detail, 4K, respectful and divine."},
+{t:"Devotional phone wallpaper",c:"Devotional",p:"Minimal phone wallpaper of [deity] in a golden glowing halo, soft gradient background in [colour], clean centred composition with empty space at the bottom for the clock, calm and spiritual feel. Vertical 9:16."},
+{t:"Festival wishes image",c:"Devotional",p:"Festival greeting image for [festival] with [deity], diyas, flowers and warm lights. Leave a clear space at the top for the text \"[greeting]\" and a small space at the bottom for my channel name."},
+{t:"Devotional Shorts video idea",c:"Devotional",p:"Give me 5 devotional Shorts ideas about [deity or story]. For each, write a 3-second hook, a 20-second story outline in simple Hinglish, and an image prompt for each scene. Keep the tone respectful and based on the traditional story."}
 ];
 var cat="All",term="";
 var chips=document.getElementById("chips"),list=document.getElementById("list"),q=document.getElementById("q");
 var cats=["All"];PROMPTS.forEach(function(x){if(cats.indexOf(x.c)<0)cats.push(x.c)});
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
-function renderChips(){chips.innerHTML="";cats.forEach(function(c){var b=document.createElement("button");b.className="chip";b.textContent=c;b.setAttribute("aria-pressed",c===cat);b.onclick=function(){cat=c;renderChips();render()};chips.appendChild(b)})}
-function render(){
-  var out=PROMPTS.filter(function(x){return(cat==="All"||x.c===cat)&&(x.t+" "+x.p+" "+x.c).toLowerCase().indexOf(term)>-1});
-  list.innerHTML="";
-  if(!out.length){list.innerHTML='<p class="empty">No prompts match. Try a shorter word or pick All.</p>';return}
-  out.forEach(function(x){
-    var d=document.createElement("article");d.className="card";
-    d.innerHTML='<h2>'+esc(x.t)+'</h2><p class="cat">'+esc(x.c)+'</p><p class="text">'+esc(x.p).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>')+'</p>';
-    var b=document.createElement("button");b.className="copy";b.textContent="Copy prompt";
-    b.onclick=function(){copy(x.p,b)};d.appendChild(b);list.appendChild(d)
-  })
-}
-function copy(text,b){
-  function ok(){b.textContent="Copied";b.classList.add("done");setTimeout(function(){b.textContent="Copy prompt";b.classList.remove("done")},1600)}
-  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok,fallback)}else fallback();
-  function fallback(){var t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){}document.body.removeChild(t)}
-}
-q.oninput=function(){term=q.value.toLowerCase().trim();render()};
-renderChips();render();
-</script>
-</body>
-</html>
+function renderChips(){chips.innerHTML="";cats.forEach(function(c){var b=document.createElement("button");b.className="chip";b.textContent=c;b.setAttribute("aria-pressed",c===cat);b.onclick=function(){ca
