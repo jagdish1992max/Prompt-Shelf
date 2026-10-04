@@ -37,6 +37,7 @@ footer{margin-top:40px;color:var(--muted);font-size:.9rem}
 <body>
 <main>
   <div class="top"><img class="avatar" src="character.jpg" alt="PromptWala channel character" width="120" height="120"><div><h1>PromptWala</h1><p class="sub">Ready-made AI prompts for creators. Copy a prompt, replace the highlighted [brackets] with your own details, and paste it into any AI.</p></div></div>
+  <section id="gen"></section>
   <input class="search" id="q" type="search" placeholder="Search prompts, e.g. title, thumbnail" aria-label="Search prompts">
   <div class="chips groups" id="groups"></div>
   <div class="chips sub" id="chips"></div>
@@ -49,6 +50,7 @@ footer{margin-top:40px;color:var(--muted);font-size:.9rem}
 <script src="prompts4.js"></script>
 <script src="prompts5.js"></script>
 <script src="prompts6.js"></script>
+<script src="gen.js"></script>
 <script>
 if(typeof PROMPTS==="undefined"){PROMPTS=[]}
 var grp="All",cat="All",term="";
