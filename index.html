@@ -30,6 +30,7 @@ mark{background:var(--mint);color:var(--ink);padding:1px 5px;border-radius:5px;f
 @media (prefers-color-scheme:dark){.copy{color:#141512}}
 .copy.done{background:var(--mint);color:var(--ink)}
 .empty{padding:30px 0;color:var(--muted)}
+.groups{margin:16px 0 8px}.groups .chip{font-weight:600;font-size:1rem;padding:9px 18px}.sub{margin:6px 0 24px}
 footer{margin-top:40px;color:var(--muted);font-size:.9rem}
 </style>
 </head>
@@ -37,7 +38,8 @@ footer{margin-top:40px;color:var(--muted);font-size:.9rem}
 <main>
   <div class="top"><img class="avatar" src="character.jpg" alt="PromptWala channel character" width="120" height="120"><div><h1>PromptWala</h1><p class="sub">Ready-made AI prompts for creators. Copy a prompt, replace the highlighted [brackets] with your own details, and paste it into any AI.</p></div></div>
   <input class="search" id="q" type="search" placeholder="Search prompts, e.g. title, thumbnail" aria-label="Search prompts">
-  <div class="chips" id="chips"></div>
+  <div class="chips groups" id="groups"></div>
+  <div class="chips sub" id="chips"></div>
   <div class="list" id="list"></div>
   <footer>Add your own prompts by editing the <code>PROMPTS</code> list in index.html.</footer>
 </main>
@@ -45,13 +47,25 @@ footer{margin-top:40px;color:var(--muted);font-size:.9rem}
 <script src="prompts2.js"></script>
 <script>
 if(typeof PROMPTS==="undefined"){PROMPTS=[]}
-var cat="All",term="";
-var chips=document.getElementById("chips"),list=document.getElementById("list"),q=document.getElementById("q");
-var cats=["All"];PROMPTS.forEach(function(x){if(cats.indexOf(x.c)<0)cats.push(x.c)});
+var grp="All",cat="All",term="";
+var GROUPS=[["Image Generator",["Image Gen","Characters","Visuals","Prompt Tools"]],["Video Generator",["Video Gen"]],["Devotional",["Devotional"]],["YouTube & Content",["YouTube","Reels","Hinglish","Editing","Planning","Community","Growth"]],["Branding",["Branding"]]];
+var c2g={};GROUPS.forEach(function(g){g[1].forEach(function(c){c2g[c]=g[0]})});
+PROMPTS.forEach(function(x){if(!c2g[x.c]){c2g[x.c]="Other"}});
+var gnames=["All"];GROUPS.forEach(function(g){gnames.push(g[0])});if(PROMPTS.some(function(x){return c2g[x.c]==="Other"}))gnames.push("Other");
+var groupsEl=document.getElementById("groups"),chips=document.getElementById("chips"),list=document.getElementById("list"),q=document.getElementById("q");
+function count(g){return PROMPTS.filter(function(x){return g==="All"||c2g[x.c]===g}).length}
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
-function renderChips(){chips.innerHTML="";cats.forEach(function(c){var b=document.createElement("button");b.className="chip";b.textContent=c;b.setAttribute("aria-pressed",c===cat);b.onclick=function(){cat=c;renderChips();render()};chips.appendChild(b)})}
+function mk(parent,label,on,fn){var b=document.createElement("button");b.className="chip";b.textContent=label;b.setAttribute("aria-pressed",on);b.onclick=fn;parent.appendChild(b)}
+function renderChips(){
+  groupsEl.innerHTML="";chips.innerHTML="";
+  gnames.forEach(function(g){mk(groupsEl,g+" ("+count(g)+")",g===grp,function(){grp=g;cat="All";renderChips();render()})});
+  if(grp==="All")return;
+  var subs=[];PROMPTS.forEach(function(x){if(c2g[x.c]===grp&&subs.indexOf(x.c)<0)subs.push(x.c)});
+  if(subs.length<2)return;
+  ["All"].concat(subs).forEach(function(c){mk(chips,c,c===cat,function(){cat=c;renderChips();render()})})
+}
 function render(){
-  var out=PROMPTS.filter(function(x){return(cat==="All"||x.c===cat)&&(x.t+" "+x.p+" "+x.c).toLowerCase().indexOf(term)>-1});
+  var out=PROMPTS.filter(function(x){return(grp==="All"||c2g[x.c]===grp)&&(cat==="All"||x.c===cat)&&(x.t+" "+x.p+" "+x.c).toLowerCase().indexOf(term)>-1});
   list.innerHTML="";
   if(!PROMPTS.length){list.innerHTML='<p class="empty">Prompts load nahi hue. Repo me prompts1.js aur prompts2.js upload karo.</p>';return}
   if(!out.length){list.innerHTML='<p class="empty">No prompts match. Try a shorter word or pick All.</p>';return}
