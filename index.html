@@ -87,7 +87,21 @@ var PROMPTS=[
 {t:"Edit my photo with AI",c:"Characters",p:"Using my uploaded photo, keep my face and pose exactly the same. Change only the [background / outfit / lighting] to [new look]. Match the lighting and shadows so it looks natural, and do not alter my face."},
 {t:"Same style, new subject",c:"Characters",p:"Create an image of [new subject] in the exact same style as my previous image: same colour palette, lighting, camera angle and level of detail. Only the subject changes."},
 {t:"Improve my image prompt",c:"Prompt Tools",p:"Here is my basic image prompt: [your prompt]. Rewrite it into a detailed prompt for an AI image generator. Add subject details, setting, lighting, camera or art style, colours, mood, aspect ratio, and a short list of things to avoid."},
-{t:"Negative prompt list",c:"Prompt Tools",p:"Give me a negative prompt list for [type of image, e.g. portraits] to avoid common AI mistakes: extra fingers, distorted face, blurry parts, bad text, watermarks, and anything else typical for this type of image."}
+{t:"Negative prompt list",c:"Prompt Tools",p:"Give me a negative prompt list for [type of image, e.g. portraits] to avoid common AI mistakes: extra fingers, distorted face, blurry parts, bad text, watermarks, and anything else typical for this type of image."},
+{t:"Script improver",c:"YouTube",p:"Here is my video script: [paste script]. Make it tighter and more engaging: cut filler, fix slow parts, and add a hook, a pattern interrupt every 60 seconds, and a stronger ending. Keep my voice and tell me what you changed."},
+{t:"SEO keyword ideas",c:"YouTube",p:"Suggest 20 YouTube search keywords for the topic [topic], mixing short and long phrases. Group them by viewer intent (learn, buy, compare) and mark which ones suit a beginner-level video."},
+{t:"Chapters and timestamps",c:"YouTube",p:"From this transcript: [paste transcript], create YouTube chapters with timestamps and short clear titles (under 6 words each). Start the first chapter at 0:00."},
+{t:"Pinned comment",c:"YouTube",p:"Write 3 pinned comment options for my video [title]. Each should ask one question to start discussion, mention [link or resource], and stay under 40 words."},
+{t:"Retention check",c:"YouTube",p:"Read this script: [paste script]. Point out the 5 places where viewers are most likely to leave, explain why, and suggest a fix for each."},
+{t:"30-second Shorts script",c:"Reels",p:"Write a 30-second Shorts script on [topic]. Format: 3-second hook, 3 quick points with on-screen text for each, and a last line that makes people follow for part 2. Tone: [tone]."},
+{t:"Shorts series plan",c:"Reels",p:"Turn the topic [topic] into a 10-part Shorts series. For each part give a title, the hook line, and how it connects to the next part so viewers keep watching."},
+{t:"Video to carousel",c:"Reels",p:"Turn this video script: [paste script] into an Instagram carousel of 8 slides. Give the heading and 1 to 2 short lines for each slide, with a strong first slide and a call to action on the last."},
+{t:"Voiceover script",c:"Editing",p:"Rewrite this text as a voiceover script for a [length]-second video: [paste text]. Use short spoken sentences, mark pauses with slashes, and note where the music or visuals should change."},
+{t:"B-roll shot list",c:"Editing",p:"Give me a B-roll shot list for a video about [topic]. For each shot list what to film or generate, the length in seconds, and which line of the script it goes with."},
+{t:"Editor brief",c:"Editing",p:"Write a clear brief for my video editor for [video title]: style references [references], pace [fast / medium], music mood [mood], caption style [style], and the 5 most important moments to highlight."},
+{t:"Subtitle cleanup",c:"Editing",p:"Clean up these auto-generated subtitles: [paste text]. Fix spelling and punctuation, split into lines of maximum 42 characters, and keep the Hinglish words as they are."},
+{t:"Audience persona",c:"Growth",p:"Create 3 viewer personas for my [niche] channel. For each give age range, what they struggle with, what videos they search for, and what would make them subscribe."},
+{t:"Handle a negative comment",c:"Community",p:"Someone left this negative comment on my video: [comment]. Write 3 calm replies: one thanking them for the feedback, one correcting a mistake politely, one short reply that ends the discussion."}
 ];
 var cat="All",term="";
 var chips=document.getElementById("chips"),list=document.getElementById("list"),q=document.getElementById("q");
