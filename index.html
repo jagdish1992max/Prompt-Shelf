@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt Shelf – ready AI prompts for creators</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F1FA;--ink:#1F1B4D;--accent:#4B3FD6;--mint:#CDEFE0;--line:#D9D5EC;--card:#fff;--muted:#5d5a85}
+@media (prefers-color-scheme:dark){:root{--bg:#14122e;--ink:#ECEAFB;--accent:#9d93ff;--mint:#1f4a3d;--line:#2d2a57;--card:#1d1a41;--muted:#a8a4d6}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.5}
+main{max-width:860px;margin:0 auto;padding:40px 18px 80px}
+h1{font-size:clamp(2.4rem,9vw,4.4rem);font-weight:800;line-height:1;margin:0 0 14px;letter-spacing:-.03em}
+.sub{max-width:52ch;color:var(--muted);margin:0 0 28px;font-size:1.05rem}
+.search{width:100%;padding:14px 16px;font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:12px}
+.search:focus,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 26px}
+.chip{font:inherit;font-size:.92rem;padding:7px 14px;border-radius:99px;border:2px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.list{display:grid;gap:16px}
+.card{background:var(--card);border:2px solid var(--line);border-left:8px solid var(--accent);border-radius:6px 16px 16px 6px;padding:18px 18px 16px}
+.card h2{font-size:1.2rem;margin:0 0 2px}
+.cat{font-size:.85rem;color:var(--muted);margin:0 0 10px}
+.text{margin:0 0 14px;white-space:pre-wrap;font-size:.98rem}
+mark{background:var(--mint);color:var(--ink);padding:1px 5px;border-radius:5px;font-weight:600}
+.copy{font:inherit;font-weight:600;padding:9px 18px;border:0;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
+@media (prefers-color-scheme:dark){.copy{color:#14122e}}
+.copy.done{background:var(--mint);color:var(--ink)}
+.empty{padding:30px 0;color:var(--muted)}
+footer{margin-top:40px;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+  <h1>Prompt Shelf</h1>
+  <p class="sub">Ready-made AI prompts for creators. Copy a prompt, replace the green [brackets] with your own details, and paste it into any AI.</p>
+  <input class="search" id="q" type="search" placeholder="Search prompts, e.g. title, thumbnail" aria-label="Search prompts">
+  <div class="chips" id="chips"></div>
+  <div class="list" id="list"></div>
+  <footer>Add your own prompts by editing the <code>PROMPTS</code> list in index.html.</footer>
+</main>
+<script>
+var PROMPTS=[
+{t:"Catchy video titles",c:"YouTube",p:"Give me 10 YouTube title ideas for a video about [topic]. Audience: [audience]. Keep each under 60 characters, make them curiosity-driven, and avoid clickbait that the video cannot deliver."},
+{t:"Full video script",c:"YouTube",p:"Write a [length]-minute YouTube script about [topic] in a [tone] tone. Start with a 15-second hook, split the body into clear sections, and end with a call to action to [action]."},
+{t:"Description and tags",c:"YouTube",p:"Write an SEO-friendly YouTube description for a video titled [title]. Include a 2-line summary, timestamps placeholders, and 15 relevant tags. Main keyword: [keyword]."},
+{t:"Hook writer",c:"YouTube",p:"Write 5 different opening hooks (max 20 words each) for a video about [topic]. Use a different style for each: question, bold claim, story, statistic, challenge."},
+{t:"Thumbnail concept",c:"Visuals",p:"Suggest 3 thumbnail concepts for a video titled [title]. For each, describe the main subject, background colour, 3 words of text at most, and the emotion on the face."},
+{t:"Character art prompt",c:"Visuals",p:"Create a detailed image prompt for a character: [character description]. Style: [art style]. Include pose, outfit, colour palette, lighting and background so the character stays consistent across scenes."},
+{t:"Consistent mascot sheet",c:"Visuals",p:"Describe a mascot for my channel about [niche] as a character sheet: front, side and back views, 5 expressions, fixed colour codes, and 3 signature details that never change."},
+{t:"Channel name ideas",c:"Branding",p:"Suggest 15 channel names for a channel about [niche]. They should be short, easy to pronounce in Hindi and English, and available as a handle. Add a one-line reason for each."},
+{t:"Channel bio",c:"Branding",p:"Write 3 versions of a YouTube channel About section for a channel on [niche]. Mention what viewers get, how often I upload ([schedule]), and end with a subscribe line."},
+{t:"Content calendar",c:"Planning",p:"Plan a 30-day content calendar for a [niche] channel posting [number] videos per week. For each video give a title, a one-line idea, and the format (long video or Short)."},
+{t:"Shorts from a long video",c:"Planning",p:"Here is my video script: [paste script]. Pick the 5 best moments for YouTube Shorts and write a 30-second script and an on-screen text line for each."},
+{t:"Reply to comments",c:"Community",p:"Write 5 friendly replies in [language] to this viewer comment: [comment]. Keep each under 25 words, sound human, and invite them to watch [video]."}
+];
+var cat="All",term="";
+var chips=document.getElementById("chips"),list=document.getElementById("list"),q=document.getElementById("q");
+var cats=["All"];PROMPTS.forEach(function(x){if(cats.indexOf(x.c)<0)cats.push(x.c)});
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function renderChips(){chips.innerHTML="";cats.forEach(function(c){var b=document.createElement("button");b.className="chip";b.textContent=c;b.setAttribute("aria-pressed",c===cat);b.onclick=function(){cat=c;renderChips();render()};chips.appendChild(b)})}
+function render(){
+  var out=PROMPTS.filter(function(x){return(cat==="All"||x.c===cat)&&(x.t+" "+x.p+" "+x.c).toLowerCase().indexOf(term)>-1});
+  list.innerHTML="";
+  if(!out.length){list.innerHTML='<p class="empty">No prompts match. Try a shorter word or pick All.</p>';return}
+  out.forEach(function(x){
+    var d=document.createElement("article");d.className="card";
+    d.innerHTML='<h2>'+esc(x.t)+'</h2><p class="cat">'+esc(x.c)+'</p><p class="text">'+esc(x.p).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>')+'</p>';
+    var b=document.createElement("button");b.className="copy";b.textContent="Copy prompt";
+    b.onclick=function(){copy(x.p,b)};d.appendChild(b);list.appendChild(d)
+  })
+}
+function copy(text,b){
+  function ok(){b.textContent="Copied";b.classList.add("done");setTimeout(function(){b.textContent="Copy prompt";b.classList.remove("done")},1600)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok,fallback)}else fallback();
+  function fallback(){var t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){}document.body.removeChild(t)}
+}
+q.oninput=function(){term=q.value.toLowerCase().trim();render()};
+renderChips();render();
+</script>
+</body>
+</html>
