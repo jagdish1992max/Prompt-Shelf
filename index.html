@@ -74,7 +74,20 @@ var PROMPTS=[
 {t:"Sponsor pitch email",c:"Growth",p:"Write a short, polite email pitching [brand] for a sponsorship. My channel: [name], niche [niche], average views [views]. Include what I offer, a simple pricing range, and a clear next step."},
 {t:"Collab request",c:"Growth",p:"Write a friendly message to [creator] proposing a collaboration on [idea]. Keep it under 100 words, show what is in it for them, and suggest one date."},
 {t:"Analytics reader",c:"Growth",p:"Here are my last 5 videos with views, watch time and click-through rate: [paste data]. Tell me what is working, what is not, and 3 specific experiments to run next month."},
-{t:"Community post",c:"Community",p:"Write 5 YouTube Community posts for my [niche] channel: 2 polls, 1 question, 1 behind-the-scenes teaser, and 1 announcement for [upcoming video]."}
+{t:"Community post",c:"Community",p:"Write 5 YouTube Community posts for my [niche] channel: 2 polls, 1 question, 1 behind-the-scenes teaser, and 1 announcement for [upcoming video]."},
+{t:"Realistic photo portrait",c:"AI Art",p:"Ultra-realistic photo of [subject] in [location], shot on 50mm lens at f/1.8, natural window light, soft shadows, sharp focus on the eyes, subtle skin texture, shallow depth of field. Aspect ratio [ratio]."},
+{t:"Vertical Shorts and Reels scene",c:"AI Art",p:"Vertical 9:16 image of [subject] doing [action] in [setting]. Keep the main subject in the centre so text can fit at the top and bottom. Style: [style], bold colours, high contrast, clean background."},
+{t:"Cinematic movie still",c:"AI Art",p:"Cinematic movie still of [scene], anamorphic wide shot, moody [colour] colour grade, volumetric light, film grain, dramatic shadows, 2.39:1 frame. Mood: [mood]."},
+{t:"Anime or cartoon style",c:"AI Art",p:"[Subject] in [anime / 2D cartoon / 3D Pixar-like] style, clean line art, vibrant colours, expressive face, detailed background of [setting], soft cel shading. Do not add text or watermarks."},
+{t:"3D mascot render",c:"AI Art",p:"3D rendered mascot of [creature or character], glossy material, rounded shapes, friendly expression, studio lighting, plain [colour] background, front three-quarter view, high detail, 4K."},
+{t:"Product photo",c:"AI Art",p:"Professional product photo of [product] on a [surface], soft diffused studio light, subtle reflection, minimal [colour] backdrop, crisp edges, space on the left for text. Looks like a premium ad."},
+{t:"YouTube thumbnail background",c:"AI Art",p:"Eye-catching YouTube thumbnail background for a video about [topic]. Bold [colour 1] and [colour 2] gradient, glowing light behind the subject area on the right, empty space on the left for big text, 16:9, no text in the image."},
+{t:"Logo on plain background",c:"AI Art",p:"Simple flat vector logo for [brand name]: [symbol idea], using only [colours], centred on a plain white background, clean shapes, no gradients, no text artifacts, works at small sizes."},
+{t:"Fantasy landscape",c:"AI Art",p:"Epic fantasy landscape of [place], towering [features], golden hour light, mist in the valley, tiny figure for scale, painterly concept art, highly detailed, 16:9."},
+{t:"Edit my photo with AI",c:"AI Art",p:"Using my uploaded photo, keep my face and pose exactly the same. Change only the [background / outfit / lighting] to [new look]. Match the lighting and shadows so it looks natural, and do not alter my face."},
+{t:"Same style, new subject",c:"AI Art",p:"Create an image of [new subject] in the exact same style as my previous image: same colour palette, lighting, camera angle and level of detail. Only the subject changes."},
+{t:"Improve my image prompt",c:"AI Art",p:"Here is my basic image prompt: [your prompt]. Rewrite it into a detailed prompt for an AI image generator. Add subject details, setting, lighting, camera or art style, colours, mood, aspect ratio, and a short list of things to avoid."},
+{t:"Negative prompt list",c:"AI Art",p:"Give me a negative prompt list for [type of image, e.g. portraits] to avoid common AI mistakes: extra fingers, distorted face, blurry parts, bad text, watermarks, and anything else typical for this type of image."}
 ];
 var cat="All",term="";
 var chips=document.getElementById("chips"),list=document.getElementById("list"),q=document.getElementById("q");
