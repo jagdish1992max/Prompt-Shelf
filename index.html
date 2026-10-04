@@ -43,6 +43,7 @@ main{max-width:900px;margin:0 auto;padding:22px 16px 70px}
 mark{background:var(--mint);color:var(--ink);padding:1px 5px;border-radius:5px;font-weight:600}
 .copy{align-self:flex-start;font:inherit;font-weight:600;padding:9px 18px;border:0;border-radius:10px;background:var(--gold);color:#1B1505;cursor:pointer}
 .copy.done{background:var(--accent);color:#fff}
+.btns{display:flex;gap:8px;flex-wrap:wrap}.card .copy{align-self:auto}.copy.share{background:transparent;color:var(--ink);border:1px solid var(--line)}.copy.share:hover{border-color:var(--gold)}
 .gen .chips{flex-wrap:wrap;overflow:visible}
 .empty{padding:30px 0;color:var(--muted)}
 footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center}
@@ -102,8 +103,15 @@ function render(){
     var d=document.createElement("article");d.className="card";
     d.innerHTML='<h2>'+esc(x.t)+'</h2><p class="cat">'+esc(x.c)+'</p><p class="text">'+esc(x.p).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>')+'</p>';
     var b=document.createElement("button");b.className="copy";b.textContent="Copy prompt";
-    b.onclick=function(){copy(x.p,b)};d.appendChild(b);list.appendChild(d)
+    b.onclick=function(){copy(x.p,b)};
+    var sh=document.createElement("button");sh.className="copy share";sh.textContent="Share";sh.onclick=function(){share(x)};
+    var w=document.createElement("div");w.className="btns";w.appendChild(b);w.appendChild(sh);d.appendChild(w);list.appendChild(d)
   })
+}
+function share(x){
+  var link=location.href.split("#")[0],text=x.t+"\n\n"+x.p+"\n\nMore free prompts: "+link;
+  if(navigator.share){navigator.share({title:x.t+" - PromptWala",text:text}).catch(function(){})}
+  else{window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank")}
 }
 function copy(text,b){
   function ok(){b.textContent="Copied";b.classList.add("done");setTimeout(function(){b.textContent="Copy prompt";b.classList.remove("done")},1600)}
