@@ -43,7 +43,7 @@ main{max-width:900px;margin:0 auto;padding:22px 16px 70px}
 mark{background:var(--mint);color:var(--ink);padding:1px 5px;border-radius:5px;font-weight:600}
 .copy{align-self:flex-start;font:inherit;font-weight:600;padding:9px 18px;border:0;border-radius:10px;background:var(--gold);color:#1B1505;cursor:pointer}
 .copy.done{background:var(--accent);color:#fff}
-.btns{display:flex;gap:8px;flex-wrap:wrap}.card .copy{align-self:auto}.copy.share{background:transparent;color:var(--ink);border:1px solid var(--line)}.copy.share:hover{border-color:var(--gold)}
+.btns{display:flex;gap:8px;flex-wrap:wrap}.card .copy{align-self:auto}.copy.share{background:transparent;color:var(--ink);border:1px solid var(--line)}.copy.share:hover{border-color:var(--gold)}.save[aria-pressed=true]{background:var(--goldbg);border-color:var(--gold);color:var(--gold)}
 .gen .chips{flex-wrap:wrap;overflow:visible}
 .empty{padding:30px 0;color:var(--muted)}
 footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center}
@@ -88,31 +88,39 @@ var grp="All",cat="All",term="";
 var GROUPS=[["Navratri",["Navratri Devi","Navratri Me","Navratri Content"]],["Trending Now",["Trending Now"]],["Diwali & Dussehra",["Diwali Images","Diwali Me","Dussehra","Diwali Content"]],["Image Generator",["Image Gen","Characters","Visuals","Prompt Tools"]],["My Photo",["Portrait Looks", "Art Styles", "Roles", "Travel Me", "Festive Me", "Devotional Me", "Channel Me", "Fashion Me", "Video Me"]],["Video Generator",["Video Gen","Action Video","Action Me","Horror Video","Comedy Video","Romantic Video","Sci-Fi Video"]],["Devotional",["Devotional"]],["Festival",["Festival"]],["YouTube & Content",["YouTube","Reels","Hinglish","Editing","Planning","Community","Growth"]],["Branding",["Branding"]]];
 var c2g={};GROUPS.forEach(function(g){g[1].forEach(function(c){c2g[c]=g[0]})});
 PROMPTS.forEach(function(x){if(!c2g[x.c]){c2g[x.c]="Other"}});
-var gnames=["All"];GROUPS.forEach(function(g){gnames.push(g[0])});if(PROMPTS.some(function(x){return c2g[x.c]==="Other"}))gnames.push("Other");
+var FAV=[];try{FAV=JSON.parse(localStorage.getItem("pw_fav")||"[]")}catch(e){}
+function fkey(x){return x.t+"|"+x.c}
+function isFav(x){return FAV.indexOf(fkey(x))>-1}
+function saveFav(){try{localStorage.setItem("pw_fav",JSON.stringify(FAV))}catch(e){}}
+var gnames=["All","Saved"];GROUPS.forEach(function(g){gnames.push(g[0])});if(PROMPTS.some(function(x){return c2g[x.c]==="Other"}))gnames.push("Other");
 var groupsEl=document.getElementById("groups"),chips=document.getElementById("chips"),list=document.getElementById("list"),q=document.getElementById("q");
-function count(g){return PROMPTS.filter(function(x){return g==="All"||c2g[x.c]===g}).length}
+function count(g){return PROMPTS.filter(function(x){return g==="All"||(g==="Saved"?isFav(x):c2g[x.c]===g)}).length}
 function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
 function mk(parent,label,on,fn){var b=document.createElement("button");b.className="chip";b.textContent=label;b.setAttribute("aria-pressed",on);b.onclick=fn;parent.appendChild(b)}
 function renderChips(){
-  groupsEl.innerHTML="";chips.innerHTML="";
+  var sl=groupsEl.scrollLeft;groupsEl.innerHTML="";chips.innerHTML="";
   gnames.forEach(function(g){mk(groupsEl,g+" ("+count(g)+")",g===grp,function(){grp=g;cat="All";renderChips();render()})});
+  groupsEl.scrollLeft=sl;
   if(grp==="All")return;
   var subs=[];PROMPTS.forEach(function(x){if(c2g[x.c]===grp&&subs.indexOf(x.c)<0)subs.push(x.c)});
   if(subs.length<2)return;
   ["All"].concat(subs).forEach(function(c){mk(chips,c,c===cat,function(){cat=c;renderChips();render()})})
 }
 function render(){
-  var out=PROMPTS.filter(function(x){return(grp==="All"||c2g[x.c]===grp)&&(cat==="All"||x.c===cat)&&(x.t+" "+x.p+" "+x.c).toLowerCase().indexOf(term)>-1});
+  var out=PROMPTS.filter(function(x){return(grp==="All"||(grp==="Saved"?isFav(x):c2g[x.c]===grp))&&(cat==="All"||x.c===cat)&&(x.t+" "+x.p+" "+x.c).toLowerCase().indexOf(term)>-1});
   list.innerHTML="";
   if(!PROMPTS.length){list.innerHTML='<p class="empty">Prompts load nahi hue. Repo me prompts1.js aur prompts2.js upload karo.</p>';return}
-  if(!out.length){list.innerHTML='<p class="empty">No prompts match. Try a shorter word or pick All.</p>';return}
+  if(!out.length){list.innerHTML=grp==="Saved"?'<p class="empty">Abhi koi prompt save nahi hua. Kisi card par Save dabao, wo yahan dikhega.</p>':'<p class="empty">No prompts match. Try a shorter word or pick All.</p>';return}
   out.forEach(function(x){
     var d=document.createElement("article");d.className="card";
     d.innerHTML='<h2>'+esc(x.t)+'</h2><p class="cat">'+esc(x.c)+'</p><p class="text">'+esc(x.p).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>')+'</p>';
     var b=document.createElement("button");b.className="copy";b.textContent="Copy prompt";
     b.onclick=function(){copy(x.p,b)};
     var sh=document.createElement("button");sh.className="copy share";sh.textContent="Share";sh.onclick=function(){share(x)};
-    var w=document.createElement("div");w.className="btns";w.appendChild(b);w.appendChild(sh);d.appendChild(w);list.appendChild(d)
+    var sv=document.createElement("button");sv.className="copy share save";
+    function lab(){var f=isFav(x);sv.textContent=f?"Saved":"Save";sv.setAttribute("aria-pressed",f)}lab();
+    sv.onclick=function(){var k=fkey(x),i=FAV.indexOf(k);if(i>-1)FAV.splice(i,1);else FAV.push(k);saveFav();lab();renderChips();if(grp==="Saved")render()};
+    var w=document.createElement("div");w.className="btns";w.appendChild(b);w.appendChild(sh);w.appendChild(sv);d.appendChild(w);list.appendChild(d)
   })
 }
 function share(x){
