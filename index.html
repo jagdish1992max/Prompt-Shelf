@@ -41,78 +41,34 @@ footer{margin-top:40px;color:var(--muted);font-size:.9rem}
   <div class="list" id="list"></div>
   <footer>Add your own prompts by editing the <code>PROMPTS</code> list in index.html.</footer>
 </main>
+<script src="prompts1.js"></script>
+<script src="prompts2.js"></script>
 <script>
-var PROMPTS=[
-{t:"Catchy video titles",c:"YouTube",p:"Give me 10 YouTube title ideas for a video about [topic]. Audience: [audience]. Keep each under 60 characters, make them curiosity-driven, and avoid clickbait that the video cannot deliver."},
-{t:"Full video script",c:"YouTube",p:"Write a [length]-minute YouTube script about [topic] in a [tone] tone. Start with a 15-second hook, split the body into clear sections, and end with a call to action to [action]."},
-{t:"Description and tags",c:"YouTube",p:"Write an SEO-friendly YouTube description for a video titled [title]. Include a 2-line summary, timestamps placeholders, and 15 relevant tags. Main keyword: [keyword]."},
-{t:"Hook writer",c:"YouTube",p:"Write 5 different opening hooks (max 20 words each) for a video about [topic]. Use a different style for each: question, bold claim, story, statistic, challenge."},
-{t:"Thumbnail concept",c:"Visuals",p:"Suggest 3 thumbnail concepts for a video titled [title]. For each, describe the main subject, background colour, 3 words of text at most, and the emotion on the face."},
-{t:"Character art prompt",c:"Visuals",p:"Create a detailed image prompt for a character: [character description]. Style: [art style]. Include pose, outfit, colour palette, lighting and background so the character stays consistent across scenes."},
-{t:"Consistent mascot sheet",c:"Visuals",p:"Describe a mascot for my channel about [niche] as a character sheet: front, side and back views, 5 expressions, fixed colour codes, and 3 signature details that never change."},
-{t:"Channel name ideas",c:"Branding",p:"Suggest 15 channel names for a channel about [niche]. They should be short, easy to pronounce in Hindi and English, and available as a handle. Add a one-line reason for each."},
-{t:"Channel bio",c:"Branding",p:"Write 3 versions of a YouTube channel About section for a channel on [niche]. Mention what viewers get, how often I upload ([schedule]), and end with a subscribe line."},
-{t:"Content calendar",c:"Planning",p:"Plan a 30-day content calendar for a [niche] channel posting [number] videos per week. For each video give a title, a one-line idea, and the format (long video or Short)."},
-{t:"Shorts from a long video",c:"Planning",p:"Here is my video script: [paste script]. Pick the 5 best moments for YouTube Shorts and write a 30-second script and an on-screen text line for each."},
-{t:"Reply to comments",c:"Community",p:"Write 5 friendly replies in [language] to this viewer comment: [comment]. Keep each under 25 words, sound human, and invite them to watch [video]."},
-{t:"Hinglish video script",c:"Hinglish",p:"Write a [length]-minute video script about [topic] in simple Hinglish (Hindi in Roman script mixed with English). Tone: friendly, like talking to a friend. Add a strong hook and an outro asking viewers to [action]."},
-{t:"Hinglish titles",c:"Hinglish",p:"Give me 10 Hinglish YouTube titles for a video on [topic]. Use everyday words, keep each under 60 characters, and make people curious without false promises."},
-{t:"Translate to Hinglish",c:"Hinglish",p:"Rewrite the following text in natural Hinglish for Indian YouTube viewers. Keep technical words in English and keep the meaning the same: [paste text]"},
-{t:"Instagram Reel idea",c:"Reels",p:"Give me 7 Instagram Reel ideas about [niche]. For each, write a 3-second hook, a 20-second outline, and one on-screen text line."},
-{t:"Reel caption and hashtags",c:"Reels",p:"Write 3 caption options for a Reel about [topic], each under 150 characters, plus 10 relevant hashtags (mix of big and small). End each caption with a question."},
-{t:"Trending angle finder",c:"Reels",p:"I make content about [niche]. Suggest 10 fresh angles on the topic [trend] that most creators miss, and say why each could work for [audience]."},
-{t:"Midjourney-style art prompt",c:"Image Gen",p:"Write a detailed image prompt for [scene]. Include subject, camera angle, lighting, colour palette, mood, and art style ([style]). Add a negative prompt listing what to avoid."},
-{t:"Cinematic portrait",c:"Image Gen",p:"Write an image prompt for a cinematic portrait of [character]. Specify lens (85mm), soft rim lighting, shallow depth of field, background [background], and a [mood] mood. Aspect ratio [ratio]."},
-{t:"Same character, new scene",c:"Characters",p:"Using this fixed character description: [character details], write 5 image prompts placing the same character in different scenes: [scene 1], [scene 2], [scene 3], [scene 4], [scene 5]. Keep face, outfit and style identical."},
-{t:"Logo idea brief",c:"Characters",p:"Write 5 logo design prompts for a channel called [name] about [niche]. Each should state the symbol, colours, style (flat, 3D, mascot), and where the logo will be used."},
-{t:"Banner and profile art",c:"Branding",p:"Describe a YouTube banner (2560x1440) for a channel about [niche]. Keep key content inside the safe area, list the text, colours, and character placement, and give an image prompt for it."},
-{t:"Brand voice guide",c:"Branding",p:"Create a short brand voice guide for my channel on [niche]: 3 personality words, words to use, words to avoid, and 5 sample sentences in this voice."},
-{t:"Intro and outro lines",c:"Branding",p:"Write 5 short intro lines (under 8 seconds) and 5 outro lines for my channel [name]. Tone: [tone]. The outro should push viewers to subscribe and watch [next video]."},
-{t:"Video outline",c:"Planning",p:"Create a detailed outline for a video titled [title]. Include the hook, 4 to 6 main points with one example each, a retention moment every 2 minutes, and the ending."},
-{t:"Series planner",c:"Planning",p:"Plan a 6-video series on [topic] for beginners. For each episode give a title, the one thing the viewer learns, and a cliffhanger linking to the next episode."},
-{t:"Competitor gap check",c:"Planning",p:"Here are titles from 3 competitor channels: [paste titles]. Find topics they cover well, topics they miss, and suggest 10 video ideas I can make that fill those gaps."},
-{t:"Sponsor pitch email",c:"Growth",p:"Write a short, polite email pitching [brand] for a sponsorship. My channel: [name], niche [niche], average views [views]. Include what I offer, a simple pricing range, and a clear next step."},
-{t:"Collab request",c:"Growth",p:"Write a friendly message to [creator] proposing a collaboration on [idea]. Keep it under 100 words, show what is in it for them, and suggest one date."},
-{t:"Analytics reader",c:"Growth",p:"Here are my last 5 videos with views, watch time and click-through rate: [paste data]. Tell me what is working, what is not, and 3 specific experiments to run next month."},
-{t:"Community post",c:"Community",p:"Write 5 YouTube Community posts for my [niche] channel: 2 polls, 1 question, 1 behind-the-scenes teaser, and 1 announcement for [upcoming video]."},
-{t:"Realistic photo portrait",c:"Image Gen",p:"Ultra-realistic photo of [subject] in [location], shot on 50mm lens at f/1.8, natural window light, soft shadows, sharp focus on the eyes, subtle skin texture, shallow depth of field. Aspect ratio [ratio]."},
-{t:"Vertical Shorts and Reels scene",c:"Image Gen",p:"Vertical 9:16 image of [subject] doing [action] in [setting]. Keep the main subject in the centre so text can fit at the top and bottom. Style: [style], bold colours, high contrast, clean background."},
-{t:"Cinematic movie still",c:"Image Gen",p:"Cinematic movie still of [scene], anamorphic wide shot, moody [colour] colour grade, volumetric light, film grain, dramatic shadows, 2.39:1 frame. Mood: [mood]."},
-{t:"Anime or cartoon style",c:"Image Gen",p:"[Subject] in [anime / 2D cartoon / 3D Pixar-like] style, clean line art, vibrant colours, expressive face, detailed background of [setting], soft cel shading. Do not add text or watermarks."},
-{t:"3D mascot render",c:"Characters",p:"3D rendered mascot of [creature or character], glossy material, rounded shapes, friendly expression, studio lighting, plain [colour] background, front three-quarter view, high detail, 4K."},
-{t:"Product photo",c:"Image Gen",p:"Professional product photo of [product] on a [surface], soft diffused studio light, subtle reflection, minimal [colour] backdrop, crisp edges, space on the left for text. Looks like a premium ad."},
-{t:"YouTube thumbnail background",c:"Image Gen",p:"Eye-catching YouTube thumbnail background for a video about [topic]. Bold [colour 1] and [colour 2] gradient, glowing light behind the subject area on the right, empty space on the left for big text, 16:9, no text in the image."},
-{t:"Logo on plain background",c:"Characters",p:"Simple flat vector logo for [brand name]: [symbol idea], using only [colours], centred on a plain white background, clean shapes, no gradients, no text artifacts, works at small sizes."},
-{t:"Fantasy landscape",c:"Image Gen",p:"Epic fantasy landscape of [place], towering [features], golden hour light, mist in the valley, tiny figure for scale, painterly concept art, highly detailed, 16:9."},
-{t:"Edit my photo with AI",c:"Characters",p:"Using my uploaded photo, keep my face and pose exactly the same. Change only the [background / outfit / lighting] to [new look]. Match the lighting and shadows so it looks natural, and do not alter my face."},
-{t:"Same style, new subject",c:"Characters",p:"Create an image of [new subject] in the exact same style as my previous image: same colour palette, lighting, camera angle and level of detail. Only the subject changes."},
-{t:"Improve my image prompt",c:"Prompt Tools",p:"Here is my basic image prompt: [your prompt]. Rewrite it into a detailed prompt for an AI image generator. Add subject details, setting, lighting, camera or art style, colours, mood, aspect ratio, and a short list of things to avoid."},
-{t:"Negative prompt list",c:"Prompt Tools",p:"Give me a negative prompt list for [type of image, e.g. portraits] to avoid common AI mistakes: extra fingers, distorted face, blurry parts, bad text, watermarks, and anything else typical for this type of image."},
-{t:"Script improver",c:"YouTube",p:"Here is my video script: [paste script]. Make it tighter and more engaging: cut filler, fix slow parts, and add a hook, a pattern interrupt every 60 seconds, and a stronger ending. Keep my voice and tell me what you changed."},
-{t:"SEO keyword ideas",c:"YouTube",p:"Suggest 20 YouTube search keywords for the topic [topic], mixing short and long phrases. Group them by viewer intent (learn, buy, compare) and mark which ones suit a beginner-level video."},
-{t:"Chapters and timestamps",c:"YouTube",p:"From this transcript: [paste transcript], create YouTube chapters with timestamps and short clear titles (under 6 words each). Start the first chapter at 0:00."},
-{t:"Pinned comment",c:"YouTube",p:"Write 3 pinned comment options for my video [title]. Each should ask one question to start discussion, mention [link or resource], and stay under 40 words."},
-{t:"Retention check",c:"YouTube",p:"Read this script: [paste script]. Point out the 5 places where viewers are most likely to leave, explain why, and suggest a fix for each."},
-{t:"30-second Shorts script",c:"Reels",p:"Write a 30-second Shorts script on [topic]. Format: 3-second hook, 3 quick points with on-screen text for each, and a last line that makes people follow for part 2. Tone: [tone]."},
-{t:"Shorts series plan",c:"Reels",p:"Turn the topic [topic] into a 10-part Shorts series. For each part give a title, the hook line, and how it connects to the next part so viewers keep watching."},
-{t:"Video to carousel",c:"Reels",p:"Turn this video script: [paste script] into an Instagram carousel of 8 slides. Give the heading and 1 to 2 short lines for each slide, with a strong first slide and a call to action on the last."},
-{t:"Voiceover script",c:"Editing",p:"Rewrite this text as a voiceover script for a [length]-second video: [paste text]. Use short spoken sentences, mark pauses with slashes, and note where the music or visuals should change."},
-{t:"B-roll shot list",c:"Editing",p:"Give me a B-roll shot list for a video about [topic]. For each shot list what to film or generate, the length in seconds, and which line of the script it goes with."},
-{t:"Editor brief",c:"Editing",p:"Write a clear brief for my video editor for [video title]: style references [references], pace [fast / medium], music mood [mood], caption style [style], and the 5 most important moments to highlight."},
-{t:"Subtitle cleanup",c:"Editing",p:"Clean up these auto-generated subtitles: [paste text]. Fix spelling and punctuation, split into lines of maximum 42 characters, and keep the Hinglish words as they are."},
-{t:"Audience persona",c:"Growth",p:"Create 3 viewer personas for my [niche] channel. For each give age range, what they struggle with, what videos they search for, and what would make them subscribe."},
-{t:"Handle a negative comment",c:"Community",p:"Someone left this negative comment on my video: [comment]. Write 3 calm replies: one thanking them for the feedback, one correcting a mistake politely, one short reply that ends the discussion."},
-{t:"Lord Shiva meditating",c:"Devotional",p:"Lord Shiva meditating on Mount Kailash at dawn, calm serene face, third eye, crescent moon, Ganga flowing from his hair, snow peaks and soft golden mist, traditional iconography, cinematic lighting, ultra detailed, respectful and divine mood. Vertical 9:16."},
-{t:"Hanuman flying with Sanjeevani",c:"Devotional",p:"Lord Hanuman flying across the sky carrying the Sanjeevani mountain, powerful and devoted expression, saffron sunset clouds, glowing aura, epic cinematic wide shot, detailed muscles and golden ornaments, reverent mood, 16:9."},
-{t:"Bal Krishna with makhan",c:"Devotional",p:"Cute Bal Krishna holding a pot of makhan, sweet smile, peacock feather crown, yellow dhoti, Vrindavan village background with cows, soft warm light, 3D Pixar-like style, innocent and divine feeling."},
-{t:"Krishna playing flute",c:"Devotional",p:"Lord Krishna playing the flute under a kadamba tree on the Yamuna bank at moonlight, peacock feather, blue skin, flowers and glowing fireflies, peaceful mood, painterly style with rich colours, traditional and respectful."},
-{t:"Ganpati Bappa festival poster",c:"Devotional",p:"Lord Ganesha seated on a lotus with modak, decorated pandal background with marigold flowers and diyas, golden glow, festive Ganesh Chaturthi poster, space at the top for the text \"Ganpati Bappa Morya\", vibrant colours."},
-{t:"Goddess Durga Navratri",c:"Devotional",p:"Goddess Durga riding her lion with eight arms holding divine weapons, fierce yet compassionate face, red saree and gold jewellery, glowing aura, Navratri night with lamps, epic detailed illustration, respectful depiction."},
-{t:"Goddess Lakshmi Diwali",c:"Devotional",p:"Goddess Lakshmi seated on a lotus with golden coins falling, elephants on both sides, rows of diyas and rangoli, warm Diwali glow, soft rich colours, traditional art style, calm and graceful expression. Vertical 9:16."},
-{t:"Ram Darbar",c:"Devotional",p:"Ram Darbar: Lord Ram, Sita, Lakshman and Hanuman seated together in a grand temple hall, golden crowns and silk clothing, calm divine faces, soft light from above, detailed traditional painting style, symmetrical composition."},
-{t:"Mahadev in cinematic 3D",c:"Devotional",p:"Mahadev in cinematic 3D render, powerful and peaceful, trident and damru, ash on body, glowing blue aura, storm clouds and lightning behind, dramatic lighting, high detail, 4K, respectful and divine."},
-{t:"Devotional phone wallpaper",c:"Devotional",p:"Minimal phone wallpaper of [deity] in a golden glowing halo, soft gradient background in [colour], clean centred composition with empty space at the bottom for the clock, calm and spiritual feel. Vertical 9:16."},
-{t:"Festival wishes image",c:"Devotional",p:"Festival greeting image for [festival] with [deity], diyas, flowers and warm lights. Leave a clear space at the top for the text \"[greeting]\" and a small space at the bottom for my channel name."},
-{t:"Devotional Shorts video idea",c:"Devotional",p:"Give me 5 devotional Shorts ideas about [deity or story]. For each, write a 3-second hook, a 20-second story outline in simple Hinglish, and an image prompt for each scene. Keep the tone respectful and based on the traditional story."},
-{t:"Photo with God (your photo)",c:"Devotional",p:"Use my uploaded photo as the face reference and keep my face exactly the same. Show me standing peacefully beside [deity] inside an ancient stone temple lit by diyas, realistic cinematic photography, divine golden light, respectful and calm mood, shallow depth of field, 8K. Vertical 9:16."},
-{t:"Shiva blessing portrait",c:"Devotional",p:"Using my uploaded photo as the face reference, create a realistic portrait of me receiving the blessing of Lord Shiva in a co
+if(typeof PROMPTS==="undefined"){PROMPTS=[]}
+var cat="All",term="";
+var chips=document.getElementById("chips"),list=document.getElementById("list"),q=document.getElementById("q");
+var cats=["All"];PROMPTS.forEach(function(x){if(cats.indexOf(x.c)<0)cats.push(x.c)});
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function renderChips(){chips.innerHTML="";cats.forEach(function(c){var b=document.createElement("button");b.className="chip";b.textContent=c;b.setAttribute("aria-pressed",c===cat);b.onclick=function(){cat=c;renderChips();render()};chips.appendChild(b)})}
+function render(){
+  var out=PROMPTS.filter(function(x){return(cat==="All"||x.c===cat)&&(x.t+" "+x.p+" "+x.c).toLowerCase().indexOf(term)>-1});
+  list.innerHTML="";
+  if(!PROMPTS.length){list.innerHTML='<p class="empty">Prompts load nahi hue. Repo me prompts1.js aur prompts2.js upload karo.</p>';return}
+  if(!out.length){list.innerHTML='<p class="empty">No prompts match. Try a shorter word or pick All.</p>';return}
+  out.forEach(function(x){
+    var d=document.createElement("article");d.className="card";
+    d.innerHTML='<h2>'+esc(x.t)+'</h2><p class="cat">'+esc(x.c)+'</p><p class="text">'+esc(x.p).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>')+'</p>';
+    var b=document.createElement("button");b.className="copy";b.textContent="Copy prompt";
+    b.onclick=function(){copy(x.p,b)};d.appendChild(b);list.appendChild(d)
+  })
+}
+function copy(text,b){
+  function ok(){b.textContent="Copied";b.classList.add("done");setTimeout(function(){b.textContent="Copy prompt";b.classList.remove("done")},1600)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok,fallback)}else fallback();
+  function fallback(){var t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){}document.body.removeChild(t)}
+}
+q.oninput=function(){term=q.value.toLowerCase().trim();render()};
+renderChips();render();
+</script>
+</body>
+</html>
