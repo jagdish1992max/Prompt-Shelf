@@ -44,7 +44,7 @@ mark{background:var(--mint);color:var(--ink);padding:1px 5px;border-radius:5px;f
 .copy{align-self:flex-start;font:inherit;font-weight:600;padding:9px 18px;border:0;border-radius:10px;background:var(--gold);color:#1B1505;cursor:pointer}
 .copy.done{background:var(--accent);color:#fff}
 .btns{display:flex;gap:8px;flex-wrap:wrap}.card .copy{align-self:auto}.copy.share{background:transparent;color:var(--ink);border:1px solid var(--line)}.copy.share:hover{border-color:var(--gold)}.save[aria-pressed=true]{background:var(--goldbg);border-color:var(--gold);color:var(--gold)}
-.gen .chips{flex-wrap:wrap;overflow:visible}
+.tools{padding-bottom:4px}.hint{margin:0 0 12px;font-size:.88rem;color:var(--muted)}.gen .chips{flex-wrap:wrap;overflow:visible}
 .empty{padding:30px 0;color:var(--muted)}
 footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center}
 </style>
@@ -62,6 +62,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:v
   <section id="fest"></section>
   <section id="potd"></section>
   <section id="gen"></section>
+  <div class="chips tools" id="tools"></div>
+  <p class="hint" id="toolhint"></p>
   <input class="search" id="q" type="search" placeholder="Search prompts, e.g. Navratri, thumbnail, anime" aria-label="Search prompts">
   <div class="chips groups" id="groups"></div>
   <div class="chips sub2" id="chips"></div>
@@ -80,6 +82,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:v
 <script src="prompts11.js"></script>
 <script src="prompts12.js"></script>
 <script src="prompts13.js"></script>
+<script src="prompts14.js"></script>
 <script src="prompts7.js"></script>
 <script src="gen.js"></script>
 <script src="potd.js"></script>
@@ -87,13 +90,20 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:v
 <script>
 if(typeof PROMPTS==="undefined"){PROMPTS=[]}
 var grp="All",cat="All",term="";
-var GROUPS=[["Viral India",["Retro 80s","Viral Edits","Landmarks","Couples & Wedding","Model Photoshoot"]],["Navratri",["Navratri Devi","Navratri Me","Navratri Content"]],["Trending Now",["Trending Now"]],["Diwali & Dussehra",["Diwali Images","Diwali Me","Dussehra","Diwali Content"]],["Image Generator",["Image Gen","Characters","Visuals","Prompt Tools"]],["My Photo",["Portrait Looks", "Art Styles", "Roles", "Travel Me", "Festive Me", "Devotional Me", "Channel Me", "Fashion Me", "Video Me"]],["Video Generator",["Video Gen","Action Video","Action Me","Horror Video","Comedy Video","Romantic Video","Sci-Fi Video"]],["Devotional",["Devotional"]],["Festival",["Festival"]],["YouTube & Content",["YouTube","Reels","Hinglish","Editing","Planning","Community","Growth"]],["Branding",["Branding"]]];
+var GROUPS=[["Viral India",["Retro 80s","Viral Edits","Landmarks","Couples & Wedding","Model Photoshoot","Travel India","Trending Portraits"]],["Navratri",["Navratri Devi","Navratri Me","Navratri Content"]],["Trending Now",["Trending Now"]],["Diwali & Dussehra",["Diwali Images","Diwali Me","Dussehra","Diwali Content"]],["Image Generator",["Image Gen","Characters","Visuals","Prompt Tools"]],["My Photo",["Portrait Looks", "Art Styles", "Roles", "Travel Me", "Festive Me", "Devotional Me", "Channel Me", "Fashion Me", "Video Me"]],["Video Generator",["Video Gen","Action Video","Action Me","Horror Video","Comedy Video","Romantic Video","Sci-Fi Video"]],["Devotional",["Devotional"]],["Festival",["Festival"]],["YouTube & Content",["YouTube","Reels","Hinglish","Editing","Planning","Community","Growth"]],["Branding",["Branding"]]];
 var c2g={};GROUPS.forEach(function(g){g[1].forEach(function(c){c2g[c]=g[0]})});
 PROMPTS.forEach(function(x){if(!c2g[x.c]){c2g[x.c]="Other"}});
 var FAV=[];try{FAV=JSON.parse(localStorage.getItem("pw_fav")||"[]")}catch(e){}
 function fkey(x){return x.t+"|"+x.c}
 function isFav(x){return FAV.indexOf(fkey(x))>-1}
 function saveFav(){try{localStorage.setItem("pw_fav",JSON.stringify(FAV))}catch(e){}}
+var tool="Any";try{tool=localStorage.getItem("pw_tool")||"Any"}catch(e){}
+var TOOLS=[["Any","Koi bhi AI"],["Gemini","Gemini"],["ChatGPT","ChatGPT"]];
+var HINT={"Any":"Prompt copy karo, [brackets] badlo, aur apne AI me paste karo. Jisme my uploaded photo likha hai, wahan pehle apni photo attach karo.","Gemini":"Gemini me photo attach karo (jahan prompt me my uploaded photo likha ho), prompt paste karo aur bhejo. Chehra badle to likho: keep my face exactly the same.","ChatGPT":"ChatGPT me photo attach karo, prompt paste karo aur bhejo. Result pasand na aaye to likho: make it more cinematic, keep my face exactly the same."};
+var IMGG=["Image Generator","My Photo","Navratri","Trending Now","Diwali & Dussehra","Viral India","Devotional","Festival"];
+function isImg(x){var g=c2g[x.c];return IMGG.indexOf(g)>-1&&!/video|content|tools/i.test(x.c)&&!/^(Write|Plan|Give|Act as|Here is|Based on)/.test(x.p)&&!/seconds/.test(x.p)}
+function withTool(x){if(tool==="Gemini"&&isImg(x))return "Create an image: "+x.p;if(tool==="ChatGPT"&&isImg(x))return "Generate an image: "+x.p;return x.p}
+function renderTools(){var t=document.getElementById("tools"),hn=document.getElementById("toolhint");if(!t)return;t.innerHTML="";TOOLS.forEach(function(o){mk(t,o[1],o[0]===tool,function(){tool=o[0];try{localStorage.setItem("pw_tool",tool)}catch(e){}renderTools()})});hn.textContent=HINT[tool]}
 var gnames=["All","Saved"];GROUPS.forEach(function(g){gnames.push(g[0])});if(PROMPTS.some(function(x){return c2g[x.c]==="Other"}))gnames.push("Other");
 var groupsEl=document.getElementById("groups"),chips=document.getElementById("chips"),list=document.getElementById("list"),q=document.getElementById("q");
 function count(g){return PROMPTS.filter(function(x){return g==="All"||(g==="Saved"?isFav(x):c2g[x.c]===g)}).length}
@@ -117,7 +127,7 @@ function render(){
     var d=document.createElement("article");d.className="card";
     d.innerHTML='<h2>'+esc(x.t)+'</h2><p class="cat">'+esc(x.c)+'</p><p class="text">'+esc(x.p).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>')+'</p>';
     var b=document.createElement("button");b.className="copy";b.textContent="Copy prompt";
-    b.onclick=function(){copy(x.p,b)};
+    b.onclick=function(){copy(withTool(x),b)};
     var sh=document.createElement("button");sh.className="copy share";sh.textContent="Share";sh.onclick=function(){share(x)};
     var sv=document.createElement("button");sv.className="copy share save";
     function lab(){var f=isFav(x);sv.textContent=f?"Saved":"Save";sv.setAttribute("aria-pressed",f)}lab();
@@ -126,7 +136,7 @@ function render(){
   })
 }
 function share(x){
-  var link=location.href.split("#")[0],text=x.t+"\n\n"+x.p+"\n\nMore free prompts: "+link;
+  var link=location.href.split("#")[0],text=x.t+"\n\n"+withTool(x)+"\n\nMore free prompts: "+link;
   if(navigator.share){navigator.share({title:x.t+" - PromptWala",text:text}).catch(function(){})}
   else{window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank")}
 }
@@ -136,7 +146,7 @@ function copy(text,b){
   function fallback(){var t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){}document.body.removeChild(t)}
 }
 q.oninput=function(){term=q.value.toLowerCase().trim();render()};
-renderChips();render();
+renderChips();renderTools();render();
 var sp=document.getElementById("sp"),sc=document.getElementById("sc");if(sp){sp.textContent=PROMPTS.length}if(sc){var u=[];PROMPTS.forEach(function(x){if(u.indexOf(x.c)<0)u.push(x.c)});sc.textContent=u.length}
 </script>
 </body>

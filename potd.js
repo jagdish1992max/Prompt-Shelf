@@ -12,7 +12,7 @@ var months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","D
 box.className="potd";
 box.innerHTML='<p class="lab"><span>Prompt of the day</span><span>'+now.getDate()+" "+months[now.getMonth()]+" "+now.getFullYear()+'</span></p><h2>'+esc(x.t)+'</h2><p class="text">'+esc(x.p).replace(/\[([^\]]+)\]/g,"<mark>[$1]</mark>")+'</p><div class="btns"></div>';
 var w=box.querySelector(".btns"),c=document.createElement("button"),sh=document.createElement("button");
-c.className="copy";c.textContent="Copy prompt";c.onclick=function(){copy(x.p,c)};
+c.className="copy";c.textContent="Copy prompt";c.onclick=function(){copy(window.withTool?withTool(x):x.p,c)};
 sh.className="copy share";sh.textContent="Share";sh.onclick=function(){share(x)};
 w.appendChild(c);w.appendChild(sh);
 })();
