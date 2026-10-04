@@ -3,46 +3,67 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PromptWala – ready AI prompts for creators</title>
+<meta name="theme-color" content="#14160F">
+<title>PromptWala – Free AI prompts for creators</title>
+<meta name="description" content="Copy-ready AI prompts for images, videos, festivals and your own photos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#F6F6F1;--ink:#1A1A16;--accent:#556B2F;--mint:#F3DE9B;--line:#D6D8D0;--card:#fff;--muted:#5f6157}
-@media (prefers-color-scheme:dark){:root{--bg:#141512;--ink:#F2F0E6;--accent:#D9AE4A;--mint:#4A5A25;--line:#2c2e27;--card:#1c1d19;--muted:#aaa99b}}
+:root{--bg:#F4F5F0;--ink:#15170F;--card:#fff;--line:#DDE0D3;--muted:#62665A;--accent:#4F6228;--gold:#B8861B;--goldbg:rgba(184,134,27,.14);--mint:rgba(184,134,27,.22)}
+@media (prefers-color-scheme:dark){:root{--bg:#0F100B;--ink:#F1EFE3;--card:#181A12;--line:#2B2E21;--muted:#A3A692;--accent:#D6A93C;--gold:#D6A93C;--goldbg:rgba(214,169,60,.14);--mint:rgba(214,169,60,.25)}}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.5}
-main{max-width:860px;margin:0 auto;padding:40px 18px 80px}
-.top{display:flex;align-items:center;gap:16px;margin:0 0 14px}.avatar{width:clamp(84px,22vw,130px);height:auto;aspect-ratio:1;object-fit:cover;border-radius:50% 50% 50% 12px;border:4px solid var(--mint);flex:none}
-h1{font-size:clamp(2.2rem,9vw,4.4rem);font-weight:800;line-height:1;margin:0;letter-spacing:-.03em}
-.sub{max-width:52ch;color:var(--muted);margin:0 0 28px;font-size:1.05rem}
-.search{width:100%;padding:14px 16px;font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:12px}
-.search:focus,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 26px}
-.chip{font:inherit;font-size:.92rem;padding:7px 14px;border-radius:99px;border:2px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
-.chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
-.list{display:grid;gap:16px}
-.card{background:var(--card);border:2px solid var(--line);border-left:8px solid var(--accent);border-radius:6px 16px 16px 6px;padding:18px 18px 16px}
-.card h2{font-size:1.2rem;margin:0 0 2px}
-.cat{font-size:.85rem;color:var(--muted);margin:0 0 10px}
-.text{margin:0 0 14px;white-space:pre-wrap;font-size:.98rem}
+.hero{background:radial-gradient(900px 300px at 85% -10%,rgba(214,169,60,.28),transparent 60%),linear-gradient(135deg,#12140D,#232A14 75%);color:#F4F1E4;border-radius:0 0 28px 28px;padding:34px 18px 26px}
+.wrap{max-width:900px;margin:0 auto}
+.top{display:flex;gap:18px;align-items:center}
+.avatar{width:92px;height:92px;border-radius:50%;object-fit:cover;object-position:top;border:3px solid #D6A93C;box-shadow:0 0 0 6px rgba(214,169,60,.18),0 10px 30px rgba(0,0,0,.4);flex:none}
+.eyebrow{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:#D6A93C;margin:0 0 4px;font-weight:600}
+h1{font-size:clamp(2.1rem,8.5vw,3.6rem);font-weight:800;line-height:1;margin:0;letter-spacing:-.03em}
+h1 span{color:#D6A93C}
+.sub{margin:18px 0 0;max-width:56ch;color:#CFCDB9;font-size:1.02rem}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.stat{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:9px 16px;font-size:.88rem;color:#CFCDB9}
+.stat b{display:block;font-size:1.35rem;color:#F4F1E4;line-height:1.1}
+main{max-width:900px;margin:0 auto;padding:22px 16px 70px}
+.search{width:100%;padding:14px 16px;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:14px}
+.search:focus,button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0 8px}
+.chips::-webkit-scrollbar{display:none}
+.groups{margin-top:14px}.sub2{margin:0 0 14px}
+.chip{flex:none;font:inherit;font-size:.9rem;padding:8px 15px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;white-space:nowrap}
+.groups .chip{font-weight:600}
+.chip[aria-pressed=true]{background:var(--gold);border-color:var(--gold);color:#1B1505}
+.list{display:grid;gap:14px;margin-top:6px}
+@media(min-width:760px){.list{grid-template-columns:1fr 1fr}}
+.card{display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.card .cat{order:-1;align-self:flex-start;margin:0;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--gold);background:var(--goldbg);padding:3px 10px;border-radius:99px}
+.card h2{margin:0;font-size:1.12rem;line-height:1.25}
+.card .text{margin:0;white-space:pre-wrap;font-size:.94rem;color:var(--muted);flex:1}
 mark{background:var(--mint);color:var(--ink);padding:1px 5px;border-radius:5px;font-weight:600}
-.copy{font:inherit;font-weight:600;padding:9px 18px;border:0;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
-@media (prefers-color-scheme:dark){.copy{color:#141512}}
-.copy.done{background:var(--mint);color:var(--ink)}
+.copy{align-self:flex-start;font:inherit;font-weight:600;padding:9px 18px;border:0;border-radius:10px;background:var(--gold);color:#1B1505;cursor:pointer}
+.copy.done{background:var(--accent);color:#fff}
+.gen .chips{flex-wrap:wrap;overflow:visible}
 .empty{padding:30px 0;color:var(--muted)}
-.groups{margin:16px 0 8px}.groups .chip{font-weight:600;font-size:1rem;padding:9px 18px}.sub{margin:6px 0 24px}
-footer{margin-top:40px;color:var(--muted);font-size:.9rem}
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center}
 </style>
 </head>
 <body>
+<header class="hero"><div class="wrap">
+  <div class="top">
+    <img class="avatar" src="character.jpg" alt="PromptWala channel character" width="92" height="92">
+    <div><p class="eyebrow">Free prompt library</p><h1>Prompt<span>Wala</span></h1></div>
+  </div>
+  <p class="sub">Copy-ready AI prompts for images, videos, festivals and your own photos. Copy a prompt, replace the highlighted [brackets] with your details, and paste it into any AI.</p>
+  <div class="stats"><div class="stat"><b id="sp">0</b>prompts</div><div class="stat"><b id="sc">0</b>categories</div><div class="stat"><b>Free</b>forever</div></div>
+</div></header>
 <main>
-  <div class="top"><img class="avatar" src="character.jpg" alt="PromptWala channel character" width="120" height="120"><div><h1>PromptWala</h1><p class="sub">Ready-made AI prompts for creators. Copy a prompt, replace the highlighted [brackets] with your own details, and paste it into any AI.</p></div></div>
   <section id="gen"></section>
-  <input class="search" id="q" type="search" placeholder="Search prompts, e.g. title, thumbnail" aria-label="Search prompts">
+  <input class="search" id="q" type="search" placeholder="Search prompts, e.g. Navratri, thumbnail, anime" aria-label="Search prompts">
   <div class="chips groups" id="groups"></div>
-  <div class="chips sub" id="chips"></div>
+  <div class="chips sub2" id="chips"></div>
   <div class="list" id="list"></div>
-  <footer>Add your own prompts by editing the <code>PROMPTS</code> list in index.html.</footer>
+  <footer>PromptWala · Made for creators · New prompts added regularly</footer>
 </main>
 <script src="prompts1.js"></script>
 <script src="prompts2.js"></script>
@@ -91,6 +112,7 @@ function copy(text,b){
 }
 q.oninput=function(){term=q.value.toLowerCase().trim();render()};
 renderChips();render();
+var sp=document.getElementById("sp"),sc=document.getElementById("sc");if(sp){sp.textContent=PROMPTS.length}if(sc){var u=[];PROMPTS.forEach(function(x){if(u.indexOf(x.c)<0)u.push(x.c)});sc.textContent=u.length}
 </script>
 </body>
 </html>
