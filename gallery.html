@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#14160F">
+<title>Gallery – PromptWala</title>
+<meta name="description" content="AI images with the exact prompt behind each one. Tap an image to get its prompt.">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F5F0;--ink:#15170F;--card:#fff;--line:#DDE0D3;--muted:#62665A;--gold:#B8861B;--goldbg:rgba(184,134,27,.14)}
+@media (prefers-color-scheme:dark){:root{--bg:#0F100B;--ink:#F1EFE3;--card:#181A12;--line:#2B2E21;--muted:#A3A692;--gold:#D6A93C;--goldbg:rgba(214,169,60,.14)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.5}
+header{background:linear-gradient(135deg,#12140D,#232A14 75%);color:#F4F1E4;padding:26px 16px 22px;border-radius:0 0 24px 24px}
+.wrap{max-width:900px;margin:0 auto}
+header a{color:#D6A93C;text-decoration:none;font-weight:600;font-size:.92rem}
+h1{margin:10px 0 4px;font-size:clamp(1.8rem,7vw,2.8rem);line-height:1.05;letter-spacing:-.02em}
+header p{margin:0;color:#CFCDB9;max-width:56ch}
+main{max-width:900px;margin:0 auto;padding:18px 14px 60px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px 0 12px}.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font:inherit;font-size:.9rem;padding:8px 15px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--gold);border-color:var(--gold);color:#1B1505}
+.grid{columns:2;column-gap:10px}
+@media(min-width:700px){.grid{columns:3}}
+.tile{break-inside:avoid;margin:0 0 10px;position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:var(--card);cursor:pointer;padding:0;display:block;width:100%;text-align:left}
+.tile img{display:block;width:100%;height:auto}
+.tile span{position:absolute;left:0;right:0;bottom:0;padding:26px 10px 9px;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff;font-size:.82rem;font-weight:600}
+.tile:focus-visible,.btn:focus-visible,.chip:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.empty{padding:30px 0;color:var(--muted)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.78);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:16px;z-index:10}
+.modal.open{display:flex}
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:18px;max-width:520px;width:100%;overflow:hidden;margin:auto}
+.sheet img{display:block;width:100%;max-height:70vh;object-fit:contain;background:#000}
+.body{padding:16px}
+.cat{display:inline-block;margin:0 0 8px;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--gold);background:var(--goldbg);padding:3px 10px;border-radius:99px}
+.body h2{margin:0 0 8px;font-size:1.15rem}
+.ptxt{margin:0 0 14px;white-space:pre-wrap;font-size:.94rem;color:var(--muted)}
+mark{background:var(--goldbg);color:var(--ink);padding:1px 5px;border-radius:5px;font-weight:600}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:inherit;font-weight:600;padding:9px 18px;border-radius:10px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.btn.main{background:var(--gold);border-color:var(--gold);color:#1B1505}
+.btn.done{background:#4F6228;border-color:#4F6228;color:#fff}
+.note{margin:12px 0 0;font-size:.82rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <a href="./">← PromptWala</a>
+  <h1>Gallery</h1>
+  <p>Kisi bhi image par tap karo, uska poora prompt mil jaayega. Copy karke apne AI me paste karo.</p>
+</div></header>
+<main>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid"></div>
+</main>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Image prompt"><div class="sheet" id="sheet"></div></div>
+<script src="gallery-data.js"></script>
+<script>
+(function(){
+var G=(typeof GALLERY!=="undefined")?GALLERY:[],cat="All";
+var chips=document.getElementById("chips"),grid=document.getElementById("grid"),modal=document.getElementById("modal"),sheet=document.getElementById("sheet"),last=null;
+function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+var cats=["All"];G.forEach(function(x){if(cats.indexOf(x.c)<0)cats.push(x.c)});
+function drawChips(){chips.innerHTML="";if(cats.length<3)return;cats.forEach(function(c){var b=document.createElement("button");b.className="chip";b.textContent=c;b.setAttribute("aria-pressed",c===cat);b.onclick=function(){cat=c;drawChips();draw()};chips.appendChild(b)})}
+function draw(){
+  grid.innerHTML="";var list=G.filter(function(x){return cat==="All"||x.c===cat});
+  if(!list.length){grid.style.columns="auto";grid.innerHTML='<p class="empty">Abhi koi image nahi hai. Jaldi hi aayengi.</p>';return}
+  grid.style.columns="";
+  list.forEach(function(x){var b=document.createElement("button");b.className="tile";b.setAttribute("aria-label",x.t+" – prompt dekho");
+    b.innerHTML='<img loading="lazy" src="'+esc(x.img)+'" alt="'+esc(x.t)+'"><span>'+esc(x.t)+'</span>';
+    b.onclick=function(ev){last=b;open(x)};grid.appendChild(b)})
+}
+function open(x){
+  var link=location.href.split("#")[0];
+  sheet.innerHTML='<img src="'+esc(x.img)+'" alt="'+esc(x.t)+'"><div class="body"><span class="cat">'+esc(x.c)+'</span><h2>'+esc(x.t)+'</h2><p class="ptxt">'+esc(x.p).replace(/\[([^\]]+)\]/g,"<mark>[$1]</mark>")+'</p><div class="row"></div><p class="note">Apni photo wale prompt me pehle apni photo attach karo.</p></div>';
+  var row=sheet.querySelector(".row"),c=document.createElement("button"),s=document.createElement("button"),k=document.createElement("button");
+  c.className="btn main";c.textContent="Copy prompt";c.onclick=function(){copy(x.p,c)};
+  s.className="btn";s.textContent="Share";s.onclick=function(){share(x,link)};
+  k.className="btn";k.textContent="Close";k.onclick=close;
+  row.appendChild(c);row.appendChild(s);row.appendChild(k);
+  modal.classList.add("open");document.body.style.overflow="hidden";c.focus();
+}
+function close(){modal.classList.remove("open");document.body.style.overflow="";if(last)last.focus()}
+modal.addEventListener("click",function(e){if(e.target===modal)close()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&modal.classList.contains("open"))close()});
+function copy(t,b){function ok(){b.textContent="Copied";b.classList.add("done");setTimeout(function(){b.textContent="Copy prompt";b.classList.remove("done")},1600)}
+  function fb(){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){}document.body.removeChild(a)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,fb)}else fb()}
+function share(x,link){var text=x.t+"\n\n"+x.p+"\n\nMore prompts: "+link;
+  if(navigator.share){navigator.share({title:x.t+" - PromptWala",text:text}).catch(function(){})}else{window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank")}}
+drawChips();draw();
+})();
+</script>
+</body>
+</html>
