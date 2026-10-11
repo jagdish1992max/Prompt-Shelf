@@ -107,6 +107,13 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:v
 <script src="prompts14.js"></script>
 <script src="prompts15.js"></script>
 <script src="prompts16.js"></script>
+<script src="prompts17.js"></script>
+<script src="prompts18.js"></script>
+<script src="prompts19.js"></script>
+<script src="prompts20.js"></script>
+<script src="prompts21.js"></script>
+<script src="prompts22.js"></script>
+<script src="prompts23.js"></script>
 <script src="prompt-images.js"></script>
 <script src="prompts7.js"></script>
 <script src="gen.js"></script>
@@ -117,7 +124,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:v
 <script>
 if(typeof PROMPTS==="undefined"){PROMPTS=[]}
 var grp="All",cat="All",term="";
-var GROUPS=[["Bollywood",["Bollywood Scenes","Bollywood Me","Bollywood Video","Filmy Writing"]],["Viral India",["Retro 80s","Viral Edits","Landmarks","Couples & Wedding","Model Photoshoot","Travel India","Trending Portraits"]],["Navratri",["Navratri Devi","Navratri Me","Navratri Content"]],["Trending Now",["Trending Now"]],["Diwali & Dussehra",["Diwali Images","Diwali Me","Dussehra","Diwali Content"]],["Image Generator",["Image Gen","Characters","Visuals","Prompt Tools"]],["My Photo",["Portrait Looks", "Art Styles", "Roles", "Travel Me", "Festive Me", "Devotional Me", "Channel Me", "Fashion Me", "Video Me"]],["Video Generator",["Video Gen","Action Video","Action Me","Horror Video","Comedy Video","Romantic Video","Sci-Fi Video"]],["Devotional",["Devotional"]],["Festival",["Festival"]],["YouTube & Content",["YouTube","Reels","Hinglish","Editing","Planning","Community","Growth"]],["Branding",["Branding"]]];
+var GROUPS=[["Shortcuts",["Shortcut Setup","Photo Shortcuts","Art Shortcuts","Festival Shortcuts","Place Shortcuts","Role Shortcuts"]],["Bollywood",["Bollywood Scenes","Bollywood Me","Bollywood Video","Filmy Writing"]],["Viral India",["Retro 80s","Viral Edits","Landmarks","Couples & Wedding","Model Photoshoot","Travel India","Trending Portraits"]],["Navratri",["Navratri Devi","Navratri Me","Navratri Content"]],["Trending Now",["Trending Now"]],["Diwali & Dussehra",["Diwali Images","Diwali Me","Dussehra","Diwali Content"]],["Image Generator",["Image Gen","Characters","Visuals","Prompt Tools"]],["My Photo",["Portrait Looks", "Art Styles", "Roles", "Travel Me", "Festive Me", "Devotional Me", "Channel Me", "Fashion Me", "Video Me"]],["Video Generator",["Video Gen","Action Video","Action Me","Horror Video","Comedy Video","Romantic Video","Sci-Fi Video"]],["Devotional",["Devotional"]],["Festival",["Festival"]],["YouTube & Content",["YouTube","Reels","Hinglish","Editing","Planning","Community","Growth"]],["Branding",["Branding"]]];
 var c2g={};GROUPS.forEach(function(g){g[1].forEach(function(c){c2g[c]=g[0]})});
 PROMPTS.forEach(function(x){if(!c2g[x.c]){c2g[x.c]="Other"}});
 var FAV=[];try{FAV=JSON.parse(localStorage.getItem("pw_fav")||"[]")}catch(e){}
@@ -127,8 +134,8 @@ function saveFav(){try{localStorage.setItem("pw_fav",JSON.stringify(FAV))}catch(
 var tool="Any";try{tool=localStorage.getItem("pw_tool")||"Any"}catch(e){}
 var TOOLS=[["Any","Koi bhi AI"],["Gemini","Gemini"],["ChatGPT","ChatGPT"]];
 var HINT={"Any":"Prompt copy karo, [brackets] badlo, aur apne AI me paste karo. Jisme my uploaded photo likha hai, wahan pehle apni photo attach karo.","Gemini":"Gemini me photo attach karo (jahan prompt me my uploaded photo likha ho), prompt paste karo aur bhejo. Chehra badle to likho: keep my face exactly the same.","ChatGPT":"ChatGPT me photo attach karo, prompt paste karo aur bhejo. Result pasand na aaye to likho: make it more cinematic, keep my face exactly the same."};
-var IMGG=["Image Generator","My Photo","Navratri","Trending Now","Diwali & Dussehra","Viral India","Devotional","Festival","Bollywood"];
-function isImg(x){var g=c2g[x.c];return IMGG.indexOf(g)>-1&&!/video|content|tools|writing/i.test(x.c)&&!/^(Write|Plan|Give|Act as|Here is|Based on)/.test(x.p)&&!/seconds/.test(x.p)}
+var IMGG=["Image Generator","My Photo","Navratri","Trending Now","Diwali & Dussehra","Viral India","Devotional","Festival","Bollywood","Shortcuts"];
+function isImg(x){var g=c2g[x.c];return IMGG.indexOf(g)>-1&&!/video|content|tools|writing|setup/i.test(x.c)&&!/^(Write|Plan|Give|Act as|Here is|Based on)/.test(x.p)&&!/seconds/.test(x.p)}
 function withTool(x){if(tool==="Gemini"&&isImg(x))return "Create an image: "+x.p;if(tool==="ChatGPT"&&isImg(x))return "Generate an image: "+x.p;return x.p}
 function renderTools(){var t=document.getElementById("tools"),hn=document.getElementById("toolhint");if(!t)return;t.innerHTML="";TOOLS.forEach(function(o){mk(t,o[1],o[0]===tool,function(){tool=o[0];try{localStorage.setItem("pw_tool",tool)}catch(e){}renderTools()})});hn.textContent=HINT[tool]}
 var gnames=["All","Saved"];GROUPS.forEach(function(g){gnames.push(g[0])});if(PROMPTS.some(function(x){return c2g[x.c]==="Other"}))gnames.push("Other");
