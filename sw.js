@@ -1,5 +1,5 @@
-var CACHE="promptwala-v3";
-var FILES=["./","index.html","character.jpg","icon-192.png","gen.js","potd.js","fest.js","pwa.js","analytics.js","gallery.html","gallery-data.js"];
+var CACHE="promptwala-v4";
+var FILES=["./","index.html","character.jpg","icon-192.png","gen.js","potd.js","fest.js","pwa.js","analytics.js","prompt-images.js","gallery.html","gallery-data.js"];
 for(var i=1;i<=16;i++)FILES.push("prompts"+i+".js");
 self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return Promise.all(FILES.map(function(f){return c.add(f).catch(function(){})}))}).then(function(){return self.skipWaiting()}))});
 self.addEventListener("activate",function(e){e.waitUntil(caches.keys().then(function(k){return Promise.all(k.filter(function(n){return n!==CACHE}).map(function(n){return caches.delete(n)}))}).then(function(){return self.clients.claim()}))});
