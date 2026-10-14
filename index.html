@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="PromptWala">
 <title>PromptWala – Free AI prompts for creators</title>
-<meta name="description" content="Copy-ready AI prompts for images, videos, festivals and your own photos.">
+<meta name="description" content="Discover, search, save and copy free AI prompts for images, videos, festivals, portraits and creator content on PromptWala.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -68,6 +68,61 @@ mark{background:var(--mint);color:var(--ink);padding:1px 5px;border-radius:5px;f
 .tools{padding-bottom:4px}.hint{margin:0 0 12px;font-size:.88rem;color:var(--muted)}.gen .chips{flex-wrap:wrap;overflow:visible}
 .empty{padding:30px 0;color:var(--muted)}
 footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center}
+
+/* PromptWala refresh: accessible controls, cleaner cards, and compact mobile layout */
+:root{color-scheme:light;--shadow:0 8px 24px rgba(30,35,15,.055);--hero-border:rgba(255,255,255,.12)}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0c0e13;--ink:#f3f4f7;--card:#151923;--line:#2b3140;--muted:#a6adbd;--accent:#d6a93c;--gold:#e8bd51;--goldbg:rgba(232,189,81,.14);--mint:rgba(232,189,81,.22);--shadow:0 8px 26px rgba(0,0,0,.22)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0c0e13;--ink:#f3f4f7;--card:#151923;--line:#2b3140;--muted:#a6adbd;--accent:#d6a93c;--gold:#e8bd51;--goldbg:rgba(232,189,81,.14);--mint:rgba(232,189,81,.22);--shadow:0 8px 26px rgba(0,0,0,.22)}}
+body{transition:background .2s,color .2s}
+.hero{padding-top:clamp(28px,5vw,48px);box-shadow:0 12px 34px rgba(13,17,8,.09)}
+.wrap,main{max-width:1080px}
+main{padding-top:28px}
+.stat{cursor:default}
+.glink,.theme-toggle{cursor:pointer;transition:transform .18s,border-color .18s,background .18s}
+.glink:hover,.theme-toggle:hover{transform:translateY(-1px);border-color:#e8bd51}
+.theme-toggle{font:inherit;text-align:left;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#f4f1e4}
+.search-wrap{position:relative;display:flex;align-items:center;margin-bottom:15px}
+.search{padding:15px 48px 15px 46px;box-shadow:var(--shadow);font-size:1rem}
+.search-icon{position:absolute;left:16px;z-index:1;font-size:1.6rem;line-height:1;color:var(--muted);pointer-events:none}
+.clear-search{position:absolute;right:9px;width:34px;height:34px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:1.5rem;cursor:pointer;display:none}
+.clear-search.visible{display:block}
+.clear-search:hover{background:var(--goldbg);color:var(--ink)}
+.chip{transition:background .15s,border-color .15s,transform .15s}
+.chip:hover{border-color:var(--gold);transform:translateY(-1px)}
+.results-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 12px;flex-wrap:wrap}
+#resultCount{margin:0;color:var(--muted);font-size:.9rem;font-weight:600}
+.result-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sort-label{font-size:.85rem;color:var(--muted)}
+#sortBy{font:inherit;font-size:.88rem;padding:8px 30px 8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
+.random-btn{font:inherit;font-size:.88rem;font-weight:700;padding:8px 12px;border-radius:10px;border:1px solid var(--gold);background:var(--goldbg);color:var(--ink);cursor:pointer}
+.random-btn:hover{background:var(--gold);color:#1b1505}
+.list{gap:16px}
+.card{padding:18px;box-shadow:var(--shadow);min-width:0}
+.card h2{font-size:1.18rem;letter-spacing:-.015em}
+.card .text{overflow-wrap:anywhere}
+.copy,.random-btn,.chip,.clear-search,.theme-toggle{touch-action:manipulation}
+.copy{transition:filter .15s,transform .15s}
+.copy:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.copy:active,.random-btn:active{transform:scale(.98)}
+button:focus-visible,select:focus-visible,.search:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.empty{padding:36px 16px;text-align:center;border:1px dashed var(--line);border-radius:16px;background:var(--card)}
+@media(max-width:600px){
+ .hero{border-radius:0 0 22px 22px;padding:26px 16px 22px}
+ .top{gap:14px}.avatar{width:70px;height:70px}
+ .sub{font-size:.96rem;margin-top:14px}
+ .stats{gap:8px}.stat{padding:8px 11px;font-size:.82rem}
+ main{padding:18px 13px 52px}
+ .results-bar{align-items:flex-start;flex-direction:column}
+ .result-actions{width:100%}#sortBy{flex:1;min-width:0}
+ .list{grid-template-columns:1fr;gap:12px}
+ .card{padding:15px;border-radius:16px}
+ .pthumb{height:175px}
+ .btns{display:grid;grid-template-columns:1fr 1fr}
+ .btns .copy:first-child{grid-column:1/-1}
+ .copy{min-height:42px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
 </style>
 </head>
 <body>
@@ -77,7 +132,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:v
     <div><p class="eyebrow">Free prompt library</p><h1>Prompt<span>Wala</span></h1></div>
   </div>
   <p class="sub">Copy-ready AI prompts for images, videos, festivals and your own photos. Copy a prompt, replace the highlighted [brackets] with your details, and paste it into any AI.</p>
-  <div class="stats"><div class="stat"><b id="sp">0</b>prompts</div><div class="stat"><b id="sc">0</b>categories</div><div class="stat"><b>Free</b>forever</div><a class="stat glink" href="gallery.html"><b>Gallery</b>image + prompt</a></div>
+  <div class="stats"><div class="stat"><b id="sp">0</b>prompts</div><div class="stat"><b id="sc">0</b>categories</div><div class="stat"><b>Free</b>forever</div><a class="stat glink" href="gallery.html"><b>Gallery</b>image + prompt</a><button class="stat theme-toggle" id="themeToggle" type="button" aria-label="Switch colour theme">☼ Theme</button></div>
 </div></header>
 <main>
   <section id="fest"></section>
@@ -85,9 +140,25 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:v
   <section id="gen"></section>
   <div class="chips tools" id="tools"></div>
   <p class="hint" id="toolhint"></p>
-  <input class="search" id="q" type="search" placeholder="Search prompts, e.g. Navratri, thumbnail, anime" aria-label="Search prompts">
+  <div class="search-wrap">
+    <span class="search-icon" aria-hidden="true">⌕</span>
+    <input class="search" id="q" type="search" placeholder="Search prompts, e.g. Navratri, thumbnail, anime" aria-label="Search prompts">
+    <button class="clear-search" id="clearSearch" type="button" aria-label="Clear search" title="Clear search">×</button>
+  </div>
   <div class="chips groups" id="groups"></div>
   <div class="chips sub2" id="chips"></div>
+  <div class="results-bar">
+    <p id="resultCount" aria-live="polite">Showing prompts</p>
+    <div class="result-actions">
+      <label class="sort-label" for="sortBy">Sort</label>
+      <select id="sortBy" aria-label="Sort prompts">
+        <option value="default">Recommended</option>
+        <option value="az">Title A–Z</option>
+        <option value="za">Title Z–A</option>
+      </select>
+      <button class="random-btn" id="randomPrompt" type="button">✦ Surprise me</button>
+    </div>
+  </div>
   <div class="list" id="list"></div>
   <footer>PromptWala · Made for creators · New prompts added regularly</footer>
 </main>
@@ -140,6 +211,7 @@ function withTool(x){if(tool==="Gemini"&&isImg(x))return "Create an image: "+x.p
 function renderTools(){var t=document.getElementById("tools"),hn=document.getElementById("toolhint");if(!t)return;t.innerHTML="";TOOLS.forEach(function(o){mk(t,o[1],o[0]===tool,function(){tool=o[0];try{localStorage.setItem("pw_tool",tool)}catch(e){}renderTools()})});hn.textContent=HINT[tool]}
 var gnames=["All","Saved"];GROUPS.forEach(function(g){gnames.push(g[0])});if(PROMPTS.some(function(x){return c2g[x.c]==="Other"}))gnames.push("Other");
 var groupsEl=document.getElementById("groups"),chips=document.getElementById("chips"),list=document.getElementById("list"),q=document.getElementById("q");
+var sortBy=document.getElementById("sortBy"),resultCount=document.getElementById("resultCount"),clearSearch=document.getElementById("clearSearch");
 function count(g){return PROMPTS.filter(function(x){return g==="All"||(g==="Saved"?isFav(x):c2g[x.c]===g)}).length}
 function hue(s){var n=0;for(var i=0;i<s.length;i++)n=(n*31+s.charCodeAt(i))%360;return n}
 function thumb(x){var f=(typeof PIMG!=="undefined")?PIMG[x.t+"|"+x.c]:null;
@@ -161,6 +233,11 @@ function renderChips(){
 }
 function render(){
   var out=PROMPTS.filter(function(x){return(grp==="All"||(grp==="Saved"?isFav(x):c2g[x.c]===grp))&&(cat==="All"||x.c===cat)&&(x.t+" "+x.p+" "+x.c).toLowerCase().indexOf(term)>-1});
+  var mode=sortBy?sortBy.value:"default";
+  if(mode==="az")out.sort(function(a,b){return a.t.localeCompare(b.t)});
+  if(mode==="za")out.sort(function(a,b){return b.t.localeCompare(a.t)});
+  if(resultCount)resultCount.textContent="Showing "+out.length+" of "+PROMPTS.length+" prompts";
+  if(clearSearch)clearSearch.classList.toggle("visible",!!q.value);
   list.innerHTML="";
   if(!PROMPTS.length){list.innerHTML='<p class="empty">Prompts load nahi hue. Repo me prompts1.js aur prompts2.js upload karo.</p>';return}
   if(!out.length){list.innerHTML=grp==="Saved"?'<p class="empty">Abhi koi prompt save nahi hua. Kisi card par Save dabao, wo yahan dikhega.</p>':'<p class="empty">No prompts match. Try a shorter word or pick All.</p>';return}
@@ -187,6 +264,32 @@ function copy(text,b){
   function fallback(){var t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){}document.body.removeChild(t)}
 }
 q.oninput=function(){term=q.value.toLowerCase().trim();render()};
+if(sortBy)sortBy.onchange=render;
+if(clearSearch)clearSearch.onclick=function(){q.value="";term="";q.focus();render()};
+var randomPrompt=document.getElementById("randomPrompt");
+if(randomPrompt)randomPrompt.onclick=function(){
+  var cards=list.querySelectorAll(".card");
+  if(!cards.length){return}
+  var chosen=cards[Math.floor(Math.random()*cards.length)];
+  chosen.scrollIntoView({behavior:"smooth",block:"center"});
+  chosen.style.outline="3px solid var(--gold)";
+  chosen.style.outlineOffset="3px";
+  setTimeout(function(){chosen.style.outline="";chosen.style.outlineOffset=""},1700);
+};
+var themeToggle=document.getElementById("themeToggle");
+function applyTheme(theme){
+  if(theme==="system"){document.documentElement.removeAttribute("data-theme")}
+  else{document.documentElement.setAttribute("data-theme",theme)}
+  if(themeToggle)themeToggle.textContent=(theme==="dark"?"☾ Dark mode":theme==="light"?"☼ Light mode":"◐ System theme");
+}
+var savedTheme="system";try{savedTheme=localStorage.getItem("pw_theme")||"system"}catch(e){}
+applyTheme(savedTheme);
+if(themeToggle)themeToggle.onclick=function(){
+  var current=document.documentElement.getAttribute("data-theme")||"system";
+  var next=current==="dark"?"light":current==="light"?"system":"dark";
+  try{localStorage.setItem("pw_theme",next)}catch(e){}
+  applyTheme(next);
+};
 renderChips();renderTools();render();
 var sp=document.getElementById("sp"),sc=document.getElementById("sc");if(sp){sp.textContent=PROMPTS.length}if(sc){var u=[];PROMPTS.forEach(function(x){if(u.indexOf(x.c)<0)u.push(x.c)});sc.textContent=u.length}
 </script>
