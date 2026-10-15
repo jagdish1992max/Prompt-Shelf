@@ -9,7 +9,7 @@ document.head.appendChild(s);
 function send(name,title){try{if(window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:name,title:title,event:true})}}catch(e){}}
 document.addEventListener("click",function(ev){
   var b=ev.target.closest&&ev.target.closest("button");if(!b)return;
-  var card=b.closest(".card,.potd");if(!card)return;
+  var card=b.closest(".card,.potd,.sheet");if(!card)return;
   var h=card.querySelector("h2"),t=h?h.textContent:"prompt",label=(b.textContent||"").trim().toLowerCase();
   if(label.indexOf("copy")===0)send("copy-"+t.toLowerCase().replace(/[^a-z0-9]+/g,"-"),"Copy: "+t);
   else if(label==="share")send("share-"+t.toLowerCase().replace(/[^a-z0-9]+/g,"-"),"Share: "+t);

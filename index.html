@@ -22,7 +22,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="PromptWala">
 <title>PromptWala – Free AI prompts for creators</title>
-<meta name="description" content="Discover, search, save and copy free AI prompts for images, videos, festivals, portraits and creator content on PromptWala.">
+<meta name="description" content="Copy-ready AI prompts for images, videos, festivals and your own photos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -50,8 +50,36 @@ main{max-width:900px;margin:0 auto;padding:22px 16px 70px}
 .chip{flex:none;font:inherit;font-size:.9rem;padding:8px 15px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;white-space:nowrap}
 .groups .chip{font-weight:600}
 .chip[aria-pressed=true]{background:var(--gold);border-color:var(--gold);color:#1B1505}
-.list{display:grid;gap:14px;margin-top:6px}
-@media(min-width:760px){.list{grid-template-columns:1fr 1fr}}
+.list{columns:2;column-gap:10px;margin-top:6px}
+@media(min-width:760px){.list{columns:3}}
+.tile{break-inside:avoid;display:block;width:100%;margin:0 0 10px;padding:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;position:relative;cursor:pointer;background:var(--card);text-align:left;color:#fff;font:inherit}
+.tile img{display:block;width:100%;height:auto}
+.tile .cap{position:absolute;left:0;right:0;bottom:0;padding:28px 11px 10px;background:linear-gradient(transparent,rgba(0,0,0,.75));font-size:.84rem;font-weight:600}
+.po{display:flex;flex-direction:column;justify-content:flex-end;padding:14px;aspect-ratio:var(--ar,3/4)}
+.po i{font-style:normal;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;opacity:.8;margin-bottom:6px}
+.po b{font-size:1.08rem;line-height:1.22}
+.tile:hover{border-color:var(--gold)}.tile:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.more{display:block;margin:12px auto 22px;font:inherit;font-weight:600;padding:11px 26px;border-radius:99px;border:1px solid var(--gold);background:transparent;color:var(--gold);cursor:pointer}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.82);display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:14px;z-index:20}
+.modal.open{display:flex}
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:18px;max-width:520px;width:100%;overflow:hidden;margin:auto;color:var(--ink)}
+.sheet>img{display:block;width:100%;max-height:68vh;object-fit:contain;background:#000}
+.sheet .po.big{aspect-ratio:4/3;padding:18px;color:#fff}
+.sbody{padding:16px}
+.bar{display:flex;gap:8px;align-items:center;margin:0 0 12px}
+.try{flex:1;font:inherit;font-weight:600;padding:11px 14px;border-radius:12px;border:1px solid var(--gold);background:var(--goldbg);color:var(--gold);cursor:pointer}
+.ico{flex:none;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;text-decoration:none}
+.ico svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ico.on{color:var(--gold);border-color:var(--gold)}.ico.on svg{fill:var(--gold)}
+.ico.done{background:var(--gold);color:#1B1505;border-color:var(--gold)}
+.ico:focus-visible,.try:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.pick{display:none;gap:8px;margin:0 0 10px;flex-wrap:wrap}.pick.show{display:flex}
+.pick a{flex:1;text-align:center;text-decoration:none;font-weight:600;padding:10px;border-radius:10px;background:var(--gold);color:#1B1505}
+.snote{margin:0 0 10px;font-size:.84rem;color:var(--muted)}
+.stag{display:inline-block;margin:0 0 8px;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;font-weight:600;color:var(--gold);background:var(--goldbg);padding:3px 10px;border-radius:99px}
+.sheet h2{margin:0 0 4px;font-size:1.2rem}
+.slab{margin:12px 0 6px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.ptxt{margin:0 0 14px;white-space:pre-wrap;font-size:.94rem;padding:12px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
 .card{display:flex;flex-direction:column;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;transition:border-color .2s,transform .2s}
 .card:hover{border-color:var(--gold);transform:translateY(-2px)}
 .pthumb{order:-2;display:block;width:100%;height:150px;border-radius:12px;object-fit:cover;border:1px solid var(--line);margin:0}
@@ -68,61 +96,6 @@ mark{background:var(--mint);color:var(--ink);padding:1px 5px;border-radius:5px;f
 .tools{padding-bottom:4px}.hint{margin:0 0 12px;font-size:.88rem;color:var(--muted)}.gen .chips{flex-wrap:wrap;overflow:visible}
 .empty{padding:30px 0;color:var(--muted)}
 footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center}
-
-/* PromptWala refresh: accessible controls, cleaner cards, and compact mobile layout */
-:root{color-scheme:light;--shadow:0 8px 24px rgba(30,35,15,.055);--hero-border:rgba(255,255,255,.12)}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#0c0e13;--ink:#f3f4f7;--card:#151923;--line:#2b3140;--muted:#a6adbd;--accent:#d6a93c;--gold:#e8bd51;--goldbg:rgba(232,189,81,.14);--mint:rgba(232,189,81,.22);--shadow:0 8px 26px rgba(0,0,0,.22)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0c0e13;--ink:#f3f4f7;--card:#151923;--line:#2b3140;--muted:#a6adbd;--accent:#d6a93c;--gold:#e8bd51;--goldbg:rgba(232,189,81,.14);--mint:rgba(232,189,81,.22);--shadow:0 8px 26px rgba(0,0,0,.22)}}
-body{transition:background .2s,color .2s}
-.hero{padding-top:clamp(28px,5vw,48px);box-shadow:0 12px 34px rgba(13,17,8,.09)}
-.wrap,main{max-width:1080px}
-main{padding-top:28px}
-.stat{cursor:default}
-.glink,.theme-toggle{cursor:pointer;transition:transform .18s,border-color .18s,background .18s}
-.glink:hover,.theme-toggle:hover{transform:translateY(-1px);border-color:#e8bd51}
-.theme-toggle{font:inherit;text-align:left;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#f4f1e4}
-.search-wrap{position:relative;display:flex;align-items:center;margin-bottom:15px}
-.search{padding:15px 48px 15px 46px;box-shadow:var(--shadow);font-size:1rem}
-.search-icon{position:absolute;left:16px;z-index:1;font-size:1.6rem;line-height:1;color:var(--muted);pointer-events:none}
-.clear-search{position:absolute;right:9px;width:34px;height:34px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-size:1.5rem;cursor:pointer;display:none}
-.clear-search.visible{display:block}
-.clear-search:hover{background:var(--goldbg);color:var(--ink)}
-.chip{transition:background .15s,border-color .15s,transform .15s}
-.chip:hover{border-color:var(--gold);transform:translateY(-1px)}
-.results-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 12px;flex-wrap:wrap}
-#resultCount{margin:0;color:var(--muted);font-size:.9rem;font-weight:600}
-.result-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.sort-label{font-size:.85rem;color:var(--muted)}
-#sortBy{font:inherit;font-size:.88rem;padding:8px 30px 8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink)}
-.random-btn{font:inherit;font-size:.88rem;font-weight:700;padding:8px 12px;border-radius:10px;border:1px solid var(--gold);background:var(--goldbg);color:var(--ink);cursor:pointer}
-.random-btn:hover{background:var(--gold);color:#1b1505}
-.list{gap:16px}
-.card{padding:18px;box-shadow:var(--shadow);min-width:0}
-.card h2{font-size:1.18rem;letter-spacing:-.015em}
-.card .text{overflow-wrap:anywhere}
-.copy,.random-btn,.chip,.clear-search,.theme-toggle{touch-action:manipulation}
-.copy{transition:filter .15s,transform .15s}
-.copy:hover{filter:brightness(1.06);transform:translateY(-1px)}
-.copy:active,.random-btn:active{transform:scale(.98)}
-button:focus-visible,select:focus-visible,.search:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.empty{padding:36px 16px;text-align:center;border:1px dashed var(--line);border-radius:16px;background:var(--card)}
-@media(max-width:600px){
- .hero{border-radius:0 0 22px 22px;padding:26px 16px 22px}
- .top{gap:14px}.avatar{width:70px;height:70px}
- .sub{font-size:.96rem;margin-top:14px}
- .stats{gap:8px}.stat{padding:8px 11px;font-size:.82rem}
- main{padding:18px 13px 52px}
- .results-bar{align-items:flex-start;flex-direction:column}
- .result-actions{width:100%}#sortBy{flex:1;min-width:0}
- .list{grid-template-columns:1fr;gap:12px}
- .card{padding:15px;border-radius:16px}
- .pthumb{height:175px}
- .btns{display:grid;grid-template-columns:1fr 1fr}
- .btns .copy:first-child{grid-column:1/-1}
- .copy{min-height:42px}
-}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
-
 </style>
 </head>
 <body>
@@ -132,36 +105,22 @@ button:focus-visible,select:focus-visible,.search:focus-visible{outline:3px soli
     <div><p class="eyebrow">Free prompt library</p><h1>Prompt<span>Wala</span></h1></div>
   </div>
   <p class="sub">Copy-ready AI prompts for images, videos, festivals and your own photos. Copy a prompt, replace the highlighted [brackets] with your details, and paste it into any AI.</p>
-  <div class="stats"><div class="stat"><b id="sp">0</b>prompts</div><div class="stat"><b id="sc">0</b>categories</div><div class="stat"><b>Free</b>forever</div><a class="stat glink" href="gallery.html"><b>Gallery</b>image + prompt</a><button class="stat theme-toggle" id="themeToggle" type="button" aria-label="Switch colour theme">☼ Theme</button></div>
+  <div class="stats"><div class="stat"><b id="sp">0</b>prompts</div><div class="stat"><b id="sc">0</b>categories</div><div class="stat"><b>Free</b>forever</div><a class="stat glink" href="gallery.html"><b>Gallery</b>image + prompt</a></div>
 </div></header>
 <main>
   <section id="fest"></section>
-  <section id="potd"></section>
-  <section id="gen"></section>
-  <div class="chips tools" id="tools"></div>
-  <p class="hint" id="toolhint"></p>
-  <div class="search-wrap">
-    <span class="search-icon" aria-hidden="true">⌕</span>
-    <input class="search" id="q" type="search" placeholder="Search prompts, e.g. Navratri, thumbnail, anime" aria-label="Search prompts">
-    <button class="clear-search" id="clearSearch" type="button" aria-label="Clear search" title="Clear search">×</button>
-  </div>
+  <input class="search" id="q" type="search" placeholder="Search prompts, e.g. Navratri, thumbnail, anime" aria-label="Search prompts">
   <div class="chips groups" id="groups"></div>
   <div class="chips sub2" id="chips"></div>
-  <div class="results-bar">
-    <p id="resultCount" aria-live="polite">Showing prompts</p>
-    <div class="result-actions">
-      <label class="sort-label" for="sortBy">Sort</label>
-      <select id="sortBy" aria-label="Sort prompts">
-        <option value="default">Recommended</option>
-        <option value="az">Title A–Z</option>
-        <option value="za">Title Z–A</option>
-      </select>
-      <button class="random-btn" id="randomPrompt" type="button">✦ Surprise me</button>
-    </div>
-  </div>
+  <div class="chips tools" id="tools"></div>
+  <p class="hint" id="toolhint" hidden></p>
   <div class="list" id="list"></div>
+  <button class="more" id="more" hidden>Aur dikhao</button>
+  <section id="potd"></section>
+  <section id="gen"></section>
   <footer>PromptWala · Made for creators · New prompts added regularly</footer>
 </main>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Prompt"><div class="sheet" id="sheet"></div></div>
 <div class="zoom" id="zoom" aria-hidden="true"><img id="zimg" alt=""></div>
 <script src="prompts1.js"></script>
 <script src="prompts2.js"></script>
@@ -211,7 +170,6 @@ function withTool(x){if(tool==="Gemini"&&isImg(x))return "Create an image: "+x.p
 function renderTools(){var t=document.getElementById("tools"),hn=document.getElementById("toolhint");if(!t)return;t.innerHTML="";TOOLS.forEach(function(o){mk(t,o[1],o[0]===tool,function(){tool=o[0];try{localStorage.setItem("pw_tool",tool)}catch(e){}renderTools()})});hn.textContent=HINT[tool]}
 var gnames=["All","Saved"];GROUPS.forEach(function(g){gnames.push(g[0])});if(PROMPTS.some(function(x){return c2g[x.c]==="Other"}))gnames.push("Other");
 var groupsEl=document.getElementById("groups"),chips=document.getElementById("chips"),list=document.getElementById("list"),q=document.getElementById("q");
-var sortBy=document.getElementById("sortBy"),resultCount=document.getElementById("resultCount"),clearSearch=document.getElementById("clearSearch");
 function count(g){return PROMPTS.filter(function(x){return g==="All"||(g==="Saved"?isFav(x):c2g[x.c]===g)}).length}
 function hue(s){var n=0;for(var i=0;i<s.length;i++)n=(n*31+s.charCodeAt(i))%360;return n}
 function thumb(x){var f=(typeof PIMG!=="undefined")?PIMG[x.t+"|"+x.c]:null;
@@ -231,30 +189,47 @@ function renderChips(){
   if(subs.length<2)return;
   ["All"].concat(subs).forEach(function(c){mk(chips,c,c===cat,function(){cat=c;renderChips();render()})})
 }
-function render(){
+var PAGE=60,shown=PAGE,lastBtn=null,AR=["3/4","1/1","4/5"],moreBtn=document.getElementById("more"),modal=document.getElementById("modal"),sheet=document.getElementById("sheet");
+function slug(x){return (x.c+"-"+x.t).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}
+function imgOf(x){return (typeof PIMG!=="undefined")?PIMG[x.t+"|"+x.c]:null}
+function posterStyle(x,big){var a=hue(x.c);return "background:linear-gradient(160deg,hsl("+a+",42%,26%),hsl("+((a+60)%360)+",46%,10%))"+(big?"":";--ar:"+AR[hue(x.t)%3])}
+function tileFor(x){var b=document.createElement("button");b.className="tile";b.setAttribute("aria-label",x.t+" - prompt dekho");var f=imgOf(x);
+  if(f){b.innerHTML='<img loading="lazy" src="'+esc(f)+'" alt="'+esc(x.t)+'"><span class="cap">'+esc(x.t)+'</span>'}
+  else{b.innerHTML='<div class="po" style="'+posterStyle(x)+'"><i>'+esc(x.c)+'</i><b>'+esc(x.t)+'</b></div>'}
+  b.onclick=function(){lastBtn=b;openSheet(x)};return b}
+function render(keep){
   var out=PROMPTS.filter(function(x){return(grp==="All"||(grp==="Saved"?isFav(x):c2g[x.c]===grp))&&(cat==="All"||x.c===cat)&&(x.t+" "+x.p+" "+x.c).toLowerCase().indexOf(term)>-1});
-  var mode=sortBy?sortBy.value:"default";
-  if(mode==="az")out.sort(function(a,b){return a.t.localeCompare(b.t)});
-  if(mode==="za")out.sort(function(a,b){return b.t.localeCompare(a.t)});
-  if(resultCount)resultCount.textContent="Showing "+out.length+" of "+PROMPTS.length+" prompts";
-  if(clearSearch)clearSearch.classList.toggle("visible",!!q.value);
-  list.innerHTML="";
+  if(keep!==false)shown=PAGE;
+  list.innerHTML="";moreBtn.hidden=true;
   if(!PROMPTS.length){list.innerHTML='<p class="empty">Prompts load nahi hue. Repo me prompts1.js aur prompts2.js upload karo.</p>';return}
-  if(!out.length){list.innerHTML=grp==="Saved"?'<p class="empty">Abhi koi prompt save nahi hua. Kisi card par Save dabao, wo yahan dikhega.</p>':'<p class="empty">No prompts match. Try a shorter word or pick All.</p>';return}
-  out.forEach(function(x){
-    var d=document.createElement("article");d.className="card";
-    d.innerHTML=thumb(x)+'<h2>'+esc(x.t)+'</h2><p class="cat">'+esc(x.c)+'</p><p class="text">'+esc(x.p).replace(/\[([^\]]+)\]/g,'<mark>[$1]</mark>')+'</p>';var th=d.querySelector('button.pthumb');if(th)th.onclick=function(){zoom(th.getAttribute('data-src'))};
-    var b=document.createElement("button");b.className="copy";b.textContent="Copy prompt";
-    b.onclick=function(){copy(withTool(x),b)};
-    var sh=document.createElement("button");sh.className="copy share";sh.textContent="Share";sh.onclick=function(){share(x)};
-    var sv=document.createElement("button");sv.className="copy share save";
-    function lab(){var f=isFav(x);sv.textContent=f?"Saved":"Save";sv.setAttribute("aria-pressed",f)}lab();
-    sv.onclick=function(){var k=fkey(x),i=FAV.indexOf(k);if(i>-1)FAV.splice(i,1);else FAV.push(k);saveFav();lab();renderChips();if(grp==="Saved")render()};
-    var w=document.createElement("div");w.className="btns";w.appendChild(b);w.appendChild(sh);w.appendChild(sv);d.appendChild(w);list.appendChild(d)
-  })
+  if(!out.length){list.innerHTML=grp==="Saved"?'<p class="empty">Abhi koi prompt save nahi hua. Kisi prompt ko kholkar dil dabao, wo yahan dikhega.</p>':'<p class="empty">No prompts match. Try a shorter word or pick All.</p>';return}
+  out.slice(0,shown).forEach(function(x){list.appendChild(tileFor(x))});
+  if(out.length>shown){moreBtn.hidden=false;moreBtn.textContent="Aur dikhao ("+(out.length-shown)+" baaki)"}
 }
+moreBtn.onclick=function(){shown+=PAGE;render(false)};
+var IC={dl:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>',sh:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>',cp:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',ht:'<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21.2l7.8-7.7 1-1.1a5.5 5.5 0 0 0 0-7.8z"/>'};
+function svg(k){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+IC[k]+'</svg>'}
+function flash(b){b.classList.add("done");setTimeout(function(){b.classList.remove("done")},1500)}
+function openSheet(x){
+  var f=imgOf(x),top=f?'<img src="'+esc(f)+'" alt="'+esc(x.t)+'">':'<div class="po big" style="'+posterStyle(x,true)+'"><i>'+esc(x.c)+'</i><b>'+esc(x.t)+'</b></div>';
+  sheet.innerHTML=top+'<div class="sbody"><div class="bar"><button class="try" id="try">Try this prompt</button>'+(f?'<a class="ico" id="dl" aria-label="Image download karo" download href="'+esc(f)+'">'+svg("dl")+'</a>':'')+'<button class="ico" id="fv" aria-label="Favourite" aria-pressed="false">'+svg("ht")+'</button><button class="ico" id="cp" aria-label="Prompt copy karo">'+svg("cp")+'</button><button class="ico" id="sh" aria-label="Share">'+svg("sh")+'</button></div><div class="pick" id="pick"><a href="https://gemini.google.com/app" target="_blank" rel="noopener">Gemini kholo</a><a href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT kholo</a></div><p class="snote" id="snote" hidden></p><span class="stag">'+esc(x.c)+'</span><h2>'+esc(x.t)+'</h2><p class="slab">Prompt</p><p class="ptxt">'+esc(x.p).replace(/\[([^\]]+)\]/g,"<mark>[$1]</mark>")+'</p><div class="bar"><button class="copy" id="cpb">Copy prompt</button><button class="copy share" id="cl">Close</button></div></div>';
+  var $=function(i){return sheet.querySelector("#"+i)};
+  function doCopy(btn,label){copy(withTool(x),btn);if(!label)flash(btn)}
+  $("try").onclick=function(){copy(withTool(x),$("cp"));flash($("cp"));$("pick").classList.add("show");var n=$("snote");n.hidden=false;n.textContent="Prompt copy ho gaya. "+HINT[tool]};
+  $("cp").onclick=function(){doCopy($("cp"))};
+  $("cpb").onclick=function(){copy(withTool(x),$("cpb"))};
+  $("sh").onclick=function(){share(x)};
+  function favUI(){var on=isFav(x);$("fv").classList.toggle("on",on);$("fv").setAttribute("aria-pressed",on)}
+  $("fv").onclick=function(){var k=fkey(x),i=FAV.indexOf(k);if(i>-1)FAV.splice(i,1);else FAV.push(k);saveFav();favUI();renderChips()};favUI();
+  $("cl").onclick=closeSheet;
+  modal.classList.add("open");document.body.style.overflow="hidden";modal.scrollTop=0;
+  try{history.replaceState(null,"","#"+slug(x))}catch(e){}
+}
+function closeSheet(){modal.classList.remove("open");document.body.style.overflow="";try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}if(grp==="Saved")render(false);if(lastBtn&&lastBtn.focus)lastBtn.focus()}
+modal.addEventListener("click",function(e){if(e.target===modal)closeSheet()});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&modal.classList.contains("open"))closeSheet()});
 function share(x){
-  var link=location.href.split("#")[0],text=x.t+"\n\n"+withTool(x)+"\n\nMore free prompts: "+link;
+  var link=location.href.split("#")[0]+"#"+slug(x),text=x.t+"\n\n"+withTool(x)+"\n\nMore free prompts: "+link;
   if(navigator.share){navigator.share({title:x.t+" - PromptWala",text:text}).catch(function(){})}
   else{window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank")}
 }
@@ -264,33 +239,7 @@ function copy(text,b){
   function fallback(){var t=document.createElement("textarea");t.value=text;document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){}document.body.removeChild(t)}
 }
 q.oninput=function(){term=q.value.toLowerCase().trim();render()};
-if(sortBy)sortBy.onchange=render;
-if(clearSearch)clearSearch.onclick=function(){q.value="";term="";q.focus();render()};
-var randomPrompt=document.getElementById("randomPrompt");
-if(randomPrompt)randomPrompt.onclick=function(){
-  var cards=list.querySelectorAll(".card");
-  if(!cards.length){return}
-  var chosen=cards[Math.floor(Math.random()*cards.length)];
-  chosen.scrollIntoView({behavior:"smooth",block:"center"});
-  chosen.style.outline="3px solid var(--gold)";
-  chosen.style.outlineOffset="3px";
-  setTimeout(function(){chosen.style.outline="";chosen.style.outlineOffset=""},1700);
-};
-var themeToggle=document.getElementById("themeToggle");
-function applyTheme(theme){
-  if(theme==="system"){document.documentElement.removeAttribute("data-theme")}
-  else{document.documentElement.setAttribute("data-theme",theme)}
-  if(themeToggle)themeToggle.textContent=(theme==="dark"?"☾ Dark mode":theme==="light"?"☼ Light mode":"◐ System theme");
-}
-var savedTheme="system";try{savedTheme=localStorage.getItem("pw_theme")||"system"}catch(e){}
-applyTheme(savedTheme);
-if(themeToggle)themeToggle.onclick=function(){
-  var current=document.documentElement.getAttribute("data-theme")||"system";
-  var next=current==="dark"?"light":current==="light"?"system":"dark";
-  try{localStorage.setItem("pw_theme",next)}catch(e){}
-  applyTheme(next);
-};
-renderChips();renderTools();render();
+renderChips();renderTools();render();var hh=location.hash.slice(1);if(hh){var ff=PROMPTS.filter(function(x){return slug(x)===hh})[0];if(ff)openSheet(ff)}
 var sp=document.getElementById("sp"),sc=document.getElementById("sc");if(sp){sp.textContent=PROMPTS.length}if(sc){var u=[];PROMPTS.forEach(function(x){if(u.indexOf(x.c)<0)u.push(x.c)});sc.textContent=u.length}
 </script>
 </body>

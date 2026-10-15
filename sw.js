@@ -1,4 +1,4 @@
-var CACHE="promptwala-v6";
+var CACHE="promptwala-v7";
 var FILES=["./","index.html","character.jpg","icon-192.png","gen.js","potd.js","fest.js","pwa.js","analytics.js","prompt-images.js","gallery.html","gallery-data.js"];
 for(var i=1;i<=23;i++)FILES.push("prompts"+i+".js");
 self.addEventListener("install",function(e){e.waitUntil(caches.open(CACHE).then(function(c){return Promise.all(FILES.map(function(f){return c.add(f).catch(function(){})}))}).then(function(){return self.skipWaiting()}))});
