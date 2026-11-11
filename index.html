@@ -244,6 +244,7 @@ q.oninput=function(){term=q.value.toLowerCase().trim();render()};
 renderChips();renderTools();render();var hh=location.hash.slice(1);if(hh){var ff=PROMPTS.filter(function(x){return slug(x)===hh})[0];if(ff)openSheet(ff)}
 var sp=document.getElementById("sp"),sc=document.getElementById("sc");if(sp){sp.textContent=PROMPTS.length}if(sc){var u=[];PROMPTS.forEach(function(x){if(u.indexOf(x.c)<0)u.push(x.c)});sc.textContent=u.length}
 </script>
+  <script src="promptwala-3-generator.js?v=1"></script>
   <script src="promptwala-2.js?v=1"></script>
 </body>
 </html>
